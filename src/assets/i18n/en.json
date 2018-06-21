@@ -2,6 +2,27 @@
     "titles" : {
         "passwords" : "Passwords",
         "twoFactor" : "Two Factor",
-        "secureNotes": "Secure Notes"
+        "secureNotes": "Secure Notes",
+        "editPassword": "Edit Password"
+
+    },
+
+    "options" : {
+        "password" : "Password",
+        "showPassword": "Show Password",
+        "hidePassword": "Hide Password",
+        "edit": "Edit",
+        "save": "Save",
+        "dismiss": "Dismiss",
+        "close": "Close",
+        "delete": "Delete"
+    },
+
+    "formTitles" : {
+        "password": "Password",
+        "userName":  "Username",
+        "title": "Title",
+        "url": "URL",
+        "groupName": "Group Name"
     }
 }

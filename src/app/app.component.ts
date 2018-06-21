@@ -7,16 +7,36 @@ import { TwoFactorPage } from '../pages/two-factor/two-factor';
 import { SecureNotesPage } from '../pages/secure-notes/secure-notes';
 import { TranslateService } from '@ngx-translate/core';
 
+/**
+ * App Component
+ */
+
 @Component({
   templateUrl: 'app.html'
 })
 export class AppComponent {
+  /**
+   * Navigation
+   */
   @ViewChild(Nav) nav: Nav;
 
+  /**
+   * Root Page
+   */
   rootPage: any = PasswordsPage;
 
+  /**
+   * All Pages
+   */
   pages: Array<{title: string, component: any}>;
 
+  /**
+   * Intializes AppComponent
+   * @param translate Translation Service
+   * @param platform Platform
+   * @param statusBar Status Bar
+   * @param splashScreen Splash Screen
+   */
   constructor(translate : TranslateService, public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen) {
     this.initializeApp();
         // this language will be used as a fallback when a translation isn't found in the current language
@@ -38,7 +58,9 @@ export class AppComponent {
 
 
   }
-
+  /**
+   * Intializes App
+   */
   initializeApp() {
     this.platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
@@ -48,6 +70,10 @@ export class AppComponent {
     });
   }
 
+  /**
+   * Opens Pages
+   * @param page Page to open
+   */
   openPage(page) {
     // Reset the content nav to have just this page
     // we wouldn't want the back button to show in this scenario

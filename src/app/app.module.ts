@@ -10,6 +10,8 @@ import { PasswordsPage } from '../pages/passwords/passwords';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { ReadPasswordProvider } from '../providers/read-password/read-password';
+import { EditPasswordPage } from '../pages/edit-password/edit-password';
 
 @NgModule({
   declarations: [
@@ -17,6 +19,7 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
     SecureNotesPage,
     TwoFactorPage,
     PasswordsPage,
+    EditPasswordPage
   ],
   imports: [
     BrowserModule,
@@ -36,11 +39,13 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
     SecureNotesPage,
     TwoFactorPage,
     PasswordsPage,
+    EditPasswordPage
   ],
   providers: [
     StatusBar,
     SplashScreen,
-    {provide: ErrorHandler, useClass: IonicErrorHandler}
+    {provide: ErrorHandler, useClass: IonicErrorHandler},
+    ReadPasswordProvider
   ]
 })
 export class AppModule {}

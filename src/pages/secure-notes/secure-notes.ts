@@ -2,10 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
 /**
- * Generated class for the SecureNotesPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
+ * Page for displaying secure notes
  */
 
 @IonicPage()
@@ -15,11 +12,14 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class SecureNotesPage {
 
+
+  /**
+   * Intializes __SecureNotesPage__
+   * @param navCtrl Nav Controller
+   * @param navParams Nav Params
+   */
   constructor(public navCtrl: NavController, public navParams: NavParams) {
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad SecureNotesPage');
-  }
 
 }
