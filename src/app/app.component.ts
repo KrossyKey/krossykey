@@ -2,28 +2,40 @@ import { Component, ViewChild } from '@angular/core';
 import { Nav, Platform } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
-
-import { HomePage } from '../pages/home/home';
-import { ListPage } from '../pages/list/list';
+import { PasswordsPage } from '../pages/passwords/passwords';
+import { TwoFactorPage } from '../pages/two-factor/two-factor';
+import { SecureNotesPage } from '../pages/secure-notes/secure-notes';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   templateUrl: 'app.html'
 })
-export class MyApp {
+export class AppComponent {
   @ViewChild(Nav) nav: Nav;
 
-  rootPage: any = HomePage;
+  rootPage: any = PasswordsPage;
 
   pages: Array<{title: string, component: any}>;
 
-  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen) {
+  constructor(translate : TranslateService, public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen) {
     this.initializeApp();
+        // this language will be used as a fallback when a translation isn't found in the current language
+        translate.setDefaultLang('en');
 
+         // the lang to use, if the lang isn't available, it will use the current loader to get them
+        translate.use('en');
     // used for an example of ngFor and navigation
-    this.pages = [
-      { title: 'Home', component: HomePage },
-      { title: 'List', component: ListPage }
-    ];
+
+    translate.get('titles').subscribe((titles: any) => {
+      this.pages = [
+        { title: titles.passwords, component: PasswordsPage },
+        { title: titles.twoFactor, component: TwoFactorPage },
+        { title: titles.secureNotes, component: SecureNotesPage }
+  
+      ];
+    });
+
+
 
   }
 
