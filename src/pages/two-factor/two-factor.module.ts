@@ -8,6 +8,8 @@ import { TwoFactorPage } from './two-factor';
   ],
   imports: [
     IonicPageModule.forChild(TwoFactorPage),
+
+
   ],
 })
 export class TwoFactorPageModule {}

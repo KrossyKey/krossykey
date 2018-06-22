@@ -1,0 +1,31 @@
+
+<ion-header>
+
+  <ion-navbar>
+    <ion-buttons start>
+        <button ion-button (click)="dismiss()">
+          <span ion-text>{{ 'options.close' | translate }}</span>
+        </button>
+        <button ion-button (click)="save()" [disabled]="!(form.valid)">
+            <span ion-text>{{ 'options.save' | translate }}</span>
+          </button>
+    </ion-buttons>
+    <ion-title>{{ 'options.password' | translate }}</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+
+    <form class="form" [formGroup]="form">
+        <ion-item *ngFor = "let property of properties">
+            <ion-label floating>{{ 'formTitles.' + property | translate }}</ion-label>
+          <ion-input *ngIf = "property !== 'body'" [(ngModel)] = "item.model[property]" type="text" [formControlName]="property" required></ion-input>
+          <ion-textarea *ngIf = "property === 'body'" rows = "8" [(ngModel)] = "item.model[property]" type="text" [formControlName]="property" required></ion-textarea>
+
+        </ion-item>
+    </form>
+    
+
+</ion-content>

@@ -9,8 +9,9 @@
 
     "options" : {
         "password" : "Password",
-        "showPassword": "Show Password",
-        "hidePassword": "Hide Password",
+        "secureNote": "Secure Note",
+        "show": "Show",
+        "hide": "Hide",
         "edit": "Edit",
         "save": "Save",
         "dismiss": "Dismiss",
@@ -20,9 +21,12 @@
 
     "formTitles" : {
         "password": "Password",
+        "secureNote": "Secure Note",
         "userName":  "Username",
         "title": "Title",
-        "url": "URL",
+        "url": "URL or Group Name",
+        "body": "Body",
+        "key": "Key",
         "groupName": "Group Name"
     }
 }

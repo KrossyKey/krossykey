@@ -1,14 +1,77 @@
 
 <ion-header>
-  <ion-navbar>
-    <button ion-button menuToggle>
-      <ion-icon name="menu"></ion-icon>
-    </button>
-    <ion-title>{{ 'titles.secureNotes' | translate }}</ion-title>
-  </ion-navbar>
-</ion-header>
+    <ion-navbar>
+      <button ion-button menuToggle>
+        <ion-icon name="menu"></ion-icon>
+      </button>
+      <ion-buttons start>
+          <button ion-button icon-start (click) = "addItem()">
+              <ion-icon name="add"></ion-icon>
+              Add Item
+          </button>
+      </ion-buttons>      
+      <ion-title>{{ 'titles.secureNotes' | translate }}</ion-title>
+    </ion-navbar>
+  </ion-header>
+  
+  
+  <ion-content padding>
+  
+    <ion-list *ngFor="let itemGroupsName of itemGroupsNames(itemGroups)">
+        <ion-list-header>
+            <h1>
+                {{itemGroupsName}}
+            </h1>
+          </ion-list-header>
+  
+      <ion-item-group *ngFor="let item of itemGroups[itemGroupsName]">
+  
+          <ion-item>
+            <ion-buttons item-end>
+              <button ion-button clear 
+                (click) = "deleteItem(item.uuid)"> 
+                  {{ 'options.delete' | translate }}
+              </button>
+              <button ion-button clear 
+                (click) = "editItem(item)"> 
+                  {{ 'options.edit' | translate }}
+              </button>
+    
+              <button *ngIf="(shownItems[item.uuid] === undefined)" 
+                      ion-button clear 
+                      (click) = "showItem(item.uuid)"> 
+                  {{ 'options.show' | translate }}
+              </button>
+    
+              <button *ngIf="(shownItems[item.uuid] !== undefined)" 
+                      ion-button clear 
+                      (click) = "hideItem(item.uuid)"> 
+                  {{ 'options.hide' | translate }}
+              </button>
+            </ion-buttons>
 
+            <div item-start start>
 
-<ion-content padding>
+              <h2>{{item.model.title}}</h2>
+              <button ion-button icon-start
+                      (click) = "copyToClipboard(item.model.body)">
+                  <ion-icon name="create"></ion-icon>
+                  {{ 'options.secureNote' | translate }}
+              </button>
+              <div style = "max-width: 50vw" [hidden] = "shownItems[item.uuid] === undefined">
+                  <p>
+                      {{item.model.body}}
+                  </p>
+              </div>
 
-</ion-content>
+          </div>
+        </ion-item>
+  
+      </ion-item-group>
+    </ion-list>
+  
+  
+  
+  
+  </ion-content>
+  

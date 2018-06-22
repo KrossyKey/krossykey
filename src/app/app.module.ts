@@ -11,7 +11,8 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { ReadPasswordProvider } from '../providers/read-password/read-password';
-import { EditPasswordPage } from '../pages/edit-password/edit-password';
+import { ItemEditorPage } from '../pages/item-editor/item-editor';
+import { NgCircleProgressModule } from 'ng-circle-progress';
 
 @NgModule({
   declarations: [
@@ -19,10 +20,21 @@ import { EditPasswordPage } from '../pages/edit-password/edit-password';
     SecureNotesPage,
     TwoFactorPage,
     PasswordsPage,
-    EditPasswordPage
+    ItemEditorPage
   ],
   imports: [
     BrowserModule,
+    NgCircleProgressModule.forRoot({
+      // set defaults here
+      radius: 100,
+      outerStrokeWidth: 2,
+      innerStrokeWidth: 2,
+      showSubtitle: false,
+      outerStrokeColor: "#488aff",
+      innerStrokeColor: "#488aaa",
+      titleFontSize: "15",
+      animationDuration: 300,
+    }),
     IonicModule.forRoot(AppComponent),
     HttpClientModule,
     TranslateModule.forRoot({
@@ -39,7 +51,7 @@ import { EditPasswordPage } from '../pages/edit-password/edit-password';
     SecureNotesPage,
     TwoFactorPage,
     PasswordsPage,
-    EditPasswordPage
+    ItemEditorPage
   ],
   providers: [
     StatusBar,

@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
 import { IonicPageModule } from 'ionic-angular';
-import { EditPasswordPage } from './edit-password';
+import { ItemEditorPage } from './item-editor';
 
 @NgModule({
   declarations: [
-    EditPasswordPage,
+    ItemEditorPage,
   ],
   imports: [
-    IonicPageModule.forChild(EditPasswordPage),
+    IonicPageModule.forChild(ItemEditorPage),
   ],
 })
 export class EditPasswordPageModule {}
