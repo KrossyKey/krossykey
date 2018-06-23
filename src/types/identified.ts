@@ -1,23 +1,10 @@
-import hash from 'object-hash'
-
-/**
- * Generates Checksum of objects
- */
-
-export class Identified<T>{
+export interface Identified{
     /**
-     * Intializes __Identified__
-     * @param model Model to be checksumed
+     * UUID of object
      */
-    constructor(readonly model : T){
-
-    }
-
+    uuid: string;
     /**
-     * @returns Generates uuid based on checksum of object
+     * Url of object
      */
-    get uuid():string{
-        return hash(this.model)
-    }
-    
+    readonly url:string
 }

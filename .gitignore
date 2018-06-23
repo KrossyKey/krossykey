@@ -2,6 +2,7 @@
 # http://git-scm.com/docs/gitignore
 
 *~
+/krossykey-electron
 /documentation
 *.sw[mnpcod]
 *.log

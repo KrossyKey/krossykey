@@ -51,11 +51,11 @@
             </ion-buttons>
 
             <div start>
-                <h2>{{item.model.userName}}</h2>
+                <h2>{{item.userName}}</h2>
                 <button ion-button icon-start
-                        (click) = "copyToClipboard(generateToken(item.model))">
+                        (click) = "copyToClipboard(generateToken(item))">
                     <ion-icon name="copy"></ion-icon>
-                    {{ generateToken(item.model) }}
+                    {{ generateToken(item) }}
     
                 </button>
             </div>

@@ -10,7 +10,7 @@
             <span ion-text>{{ 'options.save' | translate }}</span>
           </button>
     </ion-buttons>
-    <ion-title>{{ 'options.password' | translate }}</ion-title>
+    <ion-title>{{ addItem ? ('options.add' | translate) : ('options.edit' | translate) }}</ion-title>
   </ion-navbar>
 
 </ion-header>
@@ -21,8 +21,8 @@
     <form class="form" [formGroup]="form">
         <ion-item *ngFor = "let property of properties">
             <ion-label floating>{{ 'formTitles.' + property | translate }}</ion-label>
-          <ion-input *ngIf = "property !== 'body'" [(ngModel)] = "item.model[property]" type="text" [formControlName]="property" required></ion-input>
-          <ion-textarea *ngIf = "property === 'body'" rows = "8" [(ngModel)] = "item.model[property]" type="text" [formControlName]="property" required></ion-textarea>
+          <ion-input *ngIf = "property !== 'body'" [(ngModel)] = "item[property]" type="text" [formControlName]="property" required></ion-input>
+          <ion-textarea *ngIf = "property === 'body'" rows = "8" [(ngModel)] = "item[property]" type="text" [formControlName]="property" required></ion-textarea>
 
         </ion-item>
     </form>

@@ -13,6 +13,7 @@
         "show": "Show",
         "hide": "Hide",
         "edit": "Edit",
+        "add": "Add",
         "save": "Save",
         "dismiss": "Dismiss",
         "close": "Close",
@@ -28,5 +29,10 @@
         "body": "Body",
         "key": "Key",
         "groupName": "Group Name"
+    },
+
+    "validation":{
+        "invalidForm": "Invalid Form",
+        "invalidKeychain": "Invalid Keychain"
     }
 }

@@ -10,9 +10,11 @@ import { PasswordsPage } from '../pages/passwords/passwords';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import { ReadPasswordProvider } from '../providers/read-password/read-password';
 import { ItemEditorPage } from '../pages/item-editor/item-editor';
 import { NgCircleProgressModule } from 'ng-circle-progress';
+import { IonicStorageModule } from '@ionic/storage';
+import { ReadKeychainProvider } from '../providers/read-keychain/read-keychain';
+import { LocalizedToastProvider } from '../providers/localized-toast/localized-toast';
 
 @NgModule({
   declarations: [
@@ -24,6 +26,10 @@ import { NgCircleProgressModule } from 'ng-circle-progress';
   ],
   imports: [
     BrowserModule,
+    IonicStorageModule.forRoot({
+      name: 'krossykey',
+         driverOrder: ['sqlite', 'indexdb', 'websql']
+    }),
     NgCircleProgressModule.forRoot({
       // set defaults here
       radius: 100,
@@ -57,7 +63,8 @@ import { NgCircleProgressModule } from 'ng-circle-progress';
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    ReadPasswordProvider
+    ReadKeychainProvider,
+    LocalizedToastProvider
   ]
 })
 export class AppModule {}

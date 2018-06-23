@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ModalController } from 'ionic-angular';
-import { Identified } from '../../types/identified';
 import { SecureItemsPage } from '../secure-items/secure-items';
 import { TwoFactor, TWO_FACTOR_DEFAULT, SampleTwoFactor } from '../../types/two-factor';
 import notp from 'notp'
 import base32 from 'thirty-two'
 import qrcode from 'qrcode';
 import { DomSanitizer } from '@angular/platform-browser';
+import { TWO_FACTOR_SCHEMA } from '../../schema/two-factor';
 
 /**
  * Page for displaying passwords
@@ -46,7 +46,7 @@ export class TwoFactorPage extends SecureItemsPage<TwoFactor>{
   constructor(public navCtrl: NavController, 
     public navParams: NavParams, 
     public modalCtrl : ModalController, public sanitizer: DomSanitizer) {
-      super(navCtrl,navParams,modalCtrl, [new Identified(SampleTwoFactor)])
+      super(navCtrl,navParams,modalCtrl, TWO_FACTOR_SCHEMA)
       this.calcTimeRemaining()     
     }
 
@@ -69,8 +69,8 @@ export class TwoFactorPage extends SecureItemsPage<TwoFactor>{
      * Generates QR Code
      * @param twoFactor Two Factor Identified
      */
-    generateQrCode(twoFactor : Identified<TwoFactor>){
-      qrcode.toDataURL(this.barCodeUrl(twoFactor.model), (err, imageUrl) => {
+    generateQrCode(twoFactor : TwoFactor){
+      qrcode.toDataURL(this.barCodeUrl(twoFactor), (err, imageUrl) => {
         if (imageUrl) {
           this.imgs[twoFactor.uuid] = imageUrl
           console.log( this.imgs)
@@ -91,7 +91,7 @@ export class TwoFactorPage extends SecureItemsPage<TwoFactor>{
      * Shows barcode
      * @param twoFactor Two Factor Identified
      */
-    showBarCode(twoFactor : Identified<TwoFactor>){
+    showBarCode(twoFactor : TwoFactor){
       this.generateQrCode(twoFactor)
       this.showItem(twoFactor.uuid)
     }

@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ModalController } from 'ionic-angular';
-import { Identified } from '../../types/identified';
 import { SecureItemsPage } from '../secure-items/secure-items';
 import { SECURE_NOTE_DEFAULT, SecureNote, SampleSecureNote } from '../../types/secure-note';
+import { SECURE_NOTE_SCHEMA } from '../../schema/secure-note';
 
 /**
  * Page for displaying passwords
@@ -27,7 +27,7 @@ export class SecureNotesPage extends SecureItemsPage<SecureNote>{
   constructor(public navCtrl: NavController, 
     public navParams: NavParams, 
     public modalCtrl : ModalController) {
-      super(navCtrl,navParams,modalCtrl, [new Identified(SampleSecureNote)])
+      super(navCtrl,navParams,modalCtrl, SECURE_NOTE_SCHEMA)
   }
 
 

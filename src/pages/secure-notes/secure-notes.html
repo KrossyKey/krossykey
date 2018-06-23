@@ -52,15 +52,15 @@
 
             <div item-start start>
 
-              <h2>{{item.model.title}}</h2>
+              <h2>{{item.title}}</h2>
               <button ion-button icon-start
-                      (click) = "copyToClipboard(item.model.body)">
+                      (click) = "copyToClipboard(item.body)">
                   <ion-icon name="create"></ion-icon>
                   {{ 'options.secureNote' | translate }}
               </button>
               <div style = "max-width: 50vw" [hidden] = "shownItems[item.uuid] === undefined">
                   <p>
-                      {{item.model.body}}
+                      {{item.body}}
                   </p>
               </div>
 

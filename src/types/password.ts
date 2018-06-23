@@ -1,7 +1,9 @@
+import { Identified } from "./identified";
+
 /**
  * Password model
  */
-export interface Password{
+export interface Password extends Identified{
     /**
      * Title of password
      */
@@ -14,10 +16,7 @@ export interface Password{
      * Password of password
      */
     readonly password:string;
-    /**
-     * Url of password
-     */
-    readonly url:string
+
 }
 
 /**
@@ -27,7 +26,9 @@ export let PASSWORD_DEFAULT:Password = {
     title:"",
     userName:"",
     password:"",
-    url:""
+    url:"",
+    uuid:""
+
 };
 
 export let SamplePassword:Password = {
@@ -35,4 +36,5 @@ export let SamplePassword:Password = {
     userName:"afshawn",
     password:"password",
     url:"www.google.com",
+    uuid:"123456"
 }

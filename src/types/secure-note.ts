@@ -1,7 +1,9 @@
+import { Identified } from "./identified";
+
 /**
  * Secure Note model
  */
-export interface SecureNote{
+export interface SecureNote extends Identified{
     /**
      * Note title
      */
@@ -10,10 +12,7 @@ export interface SecureNote{
      * Note body
      */
     readonly body:string;
-    /**
-     * Note url
-     */
-    readonly url:string;
+
 }
 
 /**
@@ -22,11 +21,13 @@ export interface SecureNote{
 export let SECURE_NOTE_DEFAULT:SecureNote = {
     title:"",
     body:"",
-    url:""
+    url:"",
+    uuid:""
 };
 
 export let SampleSecureNote:SecureNote = {
     title:"Cool",
     body:"BlaBal",
-    url:"www.google.com"
+    url:"www.google.com",
+    uuid:"12345"
 };

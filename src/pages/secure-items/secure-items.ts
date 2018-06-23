@@ -2,11 +2,9 @@ import { NavController, NavParams, Button, ModalController } from 'ionic-angular
 import clipboard from 'clipboard-polyfill'
 import { Identified } from '../../types/identified';
 import { ItemEditorPage } from '../item-editor/item-editor';
-import { Password } from '../../types/password';
-import { SecureNote } from '../../types/secure-note';
-import { TwoFactor } from '../../types/two-factor';
+import hash from "object-hash"
 
-export abstract class SecureItemsPage<T extends Password  | SecureNote | TwoFactor> {
+export abstract class SecureItemsPage<T extends Identified> {
 
     /**
      * Object Defaults
@@ -21,11 +19,11 @@ export abstract class SecureItemsPage<T extends Password  | SecureNote | TwoFact
     /**
      * Raw items
      */
-    private _rawItems:Identified<T>[] = []
+    private rawItems:T[] = []
     /**
      * List of items
      */
-    private itemGroups: {[url : string] : Identified<T>[]} = {}
+    private itemGroups: {[url : string] : T[]} = {}
   
     /**
      * Intializes __SecureItemsPage__
@@ -34,27 +32,27 @@ export abstract class SecureItemsPage<T extends Password  | SecureNote | TwoFact
      */
     constructor(public navCtrl: NavController, 
       public navParams: NavParams, 
-      public modalCtrl : ModalController, rawItems : Identified<T>[]) {
-      this._rawItems = rawItems
-      this.itemGroups = this.sortItems(this._rawItems)
+      public modalCtrl : ModalController, private schema: {}) {
+        if (navParams.get('rawItems') as T[]){
+          this.rawItems = navParams.get('rawItems') as T[]
+          console.log(this.rawItems)
+          this.itemGroups = this.sortItems(this.rawItems)
+        }
     }
-  
 
 
     /**
      * Sorts items by url
      * @param items All Items 
      */
-    sortItems(items : Identified<T>[]):{[url : string] : Identified<T>[]}{
-      const checksums:{[checksum : string] : Identified<T>} = {}
-      
-      const itemGroups:{[property : string] : Identified<T>[] } = {}
-      items.forEach(items => {
-        if (itemGroups[items.model.url]){
-          itemGroups[items.model.url].push(items)
+    sortItems(items : T[]):{[url : string] : T[]}{      
+      const itemGroups:{[property : string] : T[] } = {}
+      items.forEach(item => {
+        if (itemGroups[item.url]){
+          itemGroups[item.url].push(item)
         }else{
-          itemGroups[items.model.url] = []
-          itemGroups[items.model.url].push(items)
+          itemGroups[item.url] = []
+          itemGroups[item.url].push(item)
         }
       });
       return itemGroups
@@ -64,7 +62,7 @@ export abstract class SecureItemsPage<T extends Password  | SecureNote | TwoFact
      * Gets all item groups
      * @param itemGroups Item groups
      */
-    itemGroupsNames(itemGroups : {[url : string] : Identified<T>[]}):string[]{
+    itemGroupsNames(itemGroups : {[url : string] : T[]}):string[]{
       return Object.keys(itemGroups)
     }
   
@@ -96,9 +94,9 @@ export abstract class SecureItemsPage<T extends Password  | SecureNote | TwoFact
      * Edits item
      * @param item __Identified<T>__
      */
-    private editItem(item : Identified<T>){
+    private editItem(item : T){
         let editModal = this.modalCtrl
-          .create(ItemEditorPage, { item: item, addItem : false });
+          .create(ItemEditorPage, { item: item, addItem : false, schema : this.schema });
         editModal.present();
     }
   
@@ -107,23 +105,28 @@ export abstract class SecureItemsPage<T extends Password  | SecureNote | TwoFact
      * @param uuid Identifier of item
      */
     private deleteItem(uuid : string){
-      this._rawItems = this._rawItems.filter(
-        (item : Identified<T>) =>  item.uuid !== uuid);
-      this.itemGroups = this.sortItems(this._rawItems)
+      this.rawItems = this.rawItems.filter(
+        (item : T) =>  item.uuid !== uuid);
+      this.itemGroups = this.sortItems(this.rawItems)
     }
   
     /**
      * Adds item
      */
     private addItem(){
+      const epoch = (new Date).getTime();
+      const uuid = hash(epoch + "com.krossykey.identifier")
+      const defaults = (JSON.parse(JSON.stringify(this.objectDefaults)) as T)
+      defaults.uuid = uuid
+
       let editModal = this.modalCtrl
-        .create(ItemEditorPage, { item: new Identified(JSON.parse(JSON.stringify(this.objectDefaults))) , addPass : true});
-      editModal.onDidDismiss((item : Identified<T>)=> {
+        .create(ItemEditorPage, { item: defaults , addItem : true, schema : this.schema});
+      editModal.onDidDismiss((item : T)=> {
         if (item !== undefined && (
-            this._rawItems.filter(
-              (filtered : Identified<T>) =>  filtered.uuid === item.uuid).length === 0)){
-            this._rawItems.push(item)
-            this.itemGroups = this.sortItems(this._rawItems)
+            this.rawItems.filter(
+              (filtered : T) =>  filtered.uuid === item.uuid).length === 0)){
+            this.rawItems.push(item)
+            this.itemGroups = this.sortItems(this.rawItems)
           }
       });
       editModal.present();

@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ModalController } from 'ionic-angular';
 import { Password, PASSWORD_DEFAULT, SamplePassword } from '../../types/password';
-import { Identified } from '../../types/identified';
 import { SecureItemsPage } from '../secure-items/secure-items';
+import { PASSWORD_SCHEMA } from '../../schema/password';
 /**
  * Page for displaying passwords
  */
@@ -25,7 +25,7 @@ export class PasswordsPage extends SecureItemsPage<Password>{
   constructor(public navCtrl: NavController, 
     public navParams: NavParams, 
     public modalCtrl : ModalController) {
-      super(navCtrl,navParams,modalCtrl, [new Identified(SamplePassword)])
+      super(navCtrl,navParams,modalCtrl, PASSWORD_SCHEMA)
   }
 
 

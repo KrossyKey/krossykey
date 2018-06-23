@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavParams, ViewController } from 'ionic-angular';
+import { IonicPage, NavParams, ViewController, ToastController } from 'ionic-angular';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
-import { Identified } from '../../types/identified';
+import { ValidationService } from '../../services/validation/validation';
+import { LocalizedToastProvider } from '../../providers/localized-toast/localized-toast';
 /**
  * Edit and add passwords
  */
@@ -12,6 +13,16 @@ import { Identified } from '../../types/identified';
 })
 export class ItemEditorPage<T> {
 
+
+  /**
+   * Validation Schema
+   */
+  private schema:{};
+
+  /**
+   * Validation Provider
+   */
+  private validationProvider:ValidationService<T>;
   /**
    * Form
    */
@@ -27,24 +38,29 @@ export class ItemEditorPage<T> {
   /**
    * Original value of item
    */
-  readonly previousVal:Identified<T>;
+  readonly previousVal:T;
   /**
    * Item to be edited or added
    */
-  private item:Identified<T>;
+  private item:T;
   /**
    * Intializes EditPasswordPage
    * @param viewCtrl View Controller
    * @param navParams Navigation Parameters
    * @param formBuilder Form Builder
+   * @param translate Translation Service
    */
-  constructor(public viewCtrl: ViewController, public navParams: NavParams, formBuilder: FormBuilder) {
-    this.item = navParams.get('item') as Identified<T>
+  constructor(public viewCtrl: ViewController, public navParams: NavParams, 
+    formBuilder: FormBuilder, private localizedToastProvider : LocalizedToastProvider) {
+    this.item = navParams.get('item') as T
     this.addItem = navParams.get('addItem') as boolean
+    this.schema = navParams.get('schema') as boolean
+
+    this.validationProvider = new ValidationService(this.schema,this.item)
 
     this.previousVal = JSON.parse(JSON.stringify(this.item));
     const validators = {}
-    this.properties = Object.keys(this.item.model)
+    this.properties = Object.keys(this.item).filter((item : string) => item != "uuid" )
     this.properties.forEach(property => {
       
         validators[property] =  new FormControl('', Validators.compose([
@@ -74,9 +90,12 @@ export class ItemEditorPage<T> {
    * Dismisses Page 
    */
   save() {
-    if (this.form.valid){
+    if (this.form.valid && this.validationProvider.isValid){
       this.viewCtrl.dismiss(this.item);
+    }else{
+      this.localizedToastProvider.displayToastFor('validation.invalidForm')
     }
+    
   }
 
 }
