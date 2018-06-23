@@ -6,6 +6,9 @@ import notp from 'notp'
 import base32 from 'thirty-two'
 import qrcode from 'qrcode';
 import { DomSanitizer } from '@angular/platform-browser';
+import { KeychainProvider } from '../../providers/keychain/keychain';
+import { PASSWORD_SCHEMA } from '../../schema/password';
+import { StorageID } from '../../app/app.component';
 import { TWO_FACTOR_SCHEMA } from '../../schema/two-factor';
 
 /**
@@ -36,19 +39,19 @@ export class TwoFactorPage extends SecureItemsPage<TwoFactor>{
    */
   private timeRemaining:number = 0;
   
+
   /**
-   * Intializes __SecureNotesPage__
-   * @param navCtrl Nav  Controller
-   * @param navParams Nav Paramteres
-   * @param modalCtrl Modal Controller
+   * Intializes __PasswordsPage__
    * @param sanitizer DOM Sanitizer
+   * @param modalCtrl Modal Controller
+   * @param keychain Keychain Provider
    */
-  constructor(public navCtrl: NavController, 
-    public navParams: NavParams, 
-    public modalCtrl : ModalController, public sanitizer: DomSanitizer) {
-      super(navCtrl,navParams,modalCtrl, TWO_FACTOR_SCHEMA)
-      this.calcTimeRemaining()     
-    }
+  constructor(public sanitizer : DomSanitizer,
+    modalCtrl : ModalController, keychain : KeychainProvider) {
+      super(modalCtrl,keychain, TWO_FACTOR_SCHEMA, StorageID.twoFactors)
+      this.calcTimeRemaining()
+  }
+
 
     /**
      * Generates Token from secret key

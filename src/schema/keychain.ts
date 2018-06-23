@@ -6,20 +6,20 @@ export let KEYCHAIN_SCHEMA = {
     type: "object",
     properties : {
         
-        password:{
+        passwords:{
             type: "array",
             validateAllForSchema: PASSWORD_SCHEMA
         },
-        secureNote:{
+        secureNotes:{
             type: "array",
             validateAllForSchema: SECURE_NOTE_SCHEMA
         },
-        twoFactor:{
+        twoFactors:{
             type: "array",
             validateAllForSchema: TWO_FACTOR_SCHEMA
         }
     },
 
     additionalProperties:false,
-    required: ["password", "secureNote", "twoFactor"]
+    required: ["passwords", "secureNotes", "twoFactors"]
 }

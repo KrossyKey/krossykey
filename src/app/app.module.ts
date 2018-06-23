@@ -13,7 +13,7 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { ItemEditorPage } from '../pages/item-editor/item-editor';
 import { NgCircleProgressModule } from 'ng-circle-progress';
 import { IonicStorageModule } from '@ionic/storage';
-import { ReadKeychainProvider } from '../providers/read-keychain/read-keychain';
+import { KeychainProvider } from '../providers/keychain/keychain';
 import { LocalizedToastProvider } from '../providers/localized-toast/localized-toast';
 
 @NgModule({
@@ -63,7 +63,7 @@ import { LocalizedToastProvider } from '../providers/localized-toast/localized-t
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    ReadKeychainProvider,
+    KeychainProvider,
     LocalizedToastProvider
   ]
 })

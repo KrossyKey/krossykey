@@ -12,10 +12,14 @@ export class ValidationService<T> {
   }
 
   get isValid():boolean{
+    this.validate(this.data)
+    console.log(this.validate(this.data),this.validate.errors, this.data,this.schema)
     return this.validate(this.data) as boolean
   }
 
   validateFor(data : T):boolean{
+    this.validate(data)
+    console.log(this.validate(data),this.validate.errors, data)
     return this.validate(data) as boolean
   }
 

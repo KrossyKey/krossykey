@@ -79,8 +79,7 @@ export class ItemEditorPage<T> {
     if (this.addItem){
       this.viewCtrl.dismiss();
     }else{
-      this.item = this.previousVal
-      this.viewCtrl.dismiss();
+      this.viewCtrl.dismiss(this.previousVal);
     }
 
   }

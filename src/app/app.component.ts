@@ -6,12 +6,12 @@ import { PasswordsPage } from '../pages/passwords/passwords';
 import { TwoFactorPage } from '../pages/two-factor/two-factor';
 import { SecureNotesPage } from '../pages/secure-notes/secure-notes';
 import { TranslateService } from '@ngx-translate/core';
-import { ReadKeychainProvider } from '../providers/read-keychain/read-keychain';
+import { KeychainProvider } from '../providers/keychain/keychain';
 
-export enum PageID{
-  password,
-  twoFactor,
-  secureNotes
+export enum StorageID{
+  passwords = "passwords",
+  twoFactors = "twoFactors",
+  secureNotes = "secureNotes"
 }
 
 
@@ -36,7 +36,7 @@ export class AppComponent {
   /**
    * All Pages
    */
-  pages: Array<{title: string, component: any, id : PageID}>;
+  pages: Array<{title: string, component: any}>;
 
   /**
    * Intializes AppComponent
@@ -49,7 +49,7 @@ export class AppComponent {
     public platform: Platform, 
     public statusBar: StatusBar, 
     public splashScreen: SplashScreen,
-    private readKeychainProvider : ReadKeychainProvider) {
+    private readKeychainProvider : KeychainProvider) {
     this.initializeApp();
         // this language will be used as a fallback when a translation isn't found in the current language
         translate.setDefaultLang('en');
@@ -59,12 +59,11 @@ export class AppComponent {
     // used for an example of ngFor and navigation
     translate.get('titles').subscribe((titles: any) => {
       this.pages = [
-        { title: titles.passwords, component: PasswordsPage, id : PageID.password },
-        { title: titles.twoFactor, component: TwoFactorPage, id : PageID.twoFactor },
-        { title: titles.secureNotes, component: SecureNotesPage, id : PageID.secureNotes }
+        { title: titles.passwords, component: PasswordsPage },
+        { title: titles.twoFactor, component: TwoFactorPage },
+        { title: titles.secureNotes, component: SecureNotesPage }
   
       ];
-      this.openPage(this.pages[0])
 
     });
     
@@ -86,14 +85,6 @@ export class AppComponent {
    * @param page Page to open
    */
   openPage(page) {
-    this.readKeychainProvider.doneLoading.then(() =>{
-      if (page.id === PageID.password){
-        this.nav.setRoot(page.component, {rawItems : this.readKeychainProvider.keychain.passwords});
-      }else if (page.id === PageID.twoFactor){
-        this.nav.setRoot(page.component, {rawItems : this.readKeychainProvider.keychain.twoFactors});
-      }else if (page.id === PageID.secureNotes){
-        this.nav.setRoot(page.component, {rawItems : this.readKeychainProvider.keychain.secureNotes});
-      }
-    })
+    this.nav.setRoot(page.component)
   }
 }

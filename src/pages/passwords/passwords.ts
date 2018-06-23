@@ -3,6 +3,8 @@ import { IonicPage, NavController, NavParams, ModalController } from 'ionic-angu
 import { Password, PASSWORD_DEFAULT, SamplePassword } from '../../types/password';
 import { SecureItemsPage } from '../secure-items/secure-items';
 import { PASSWORD_SCHEMA } from '../../schema/password';
+import { KeychainProvider } from '../../providers/keychain/keychain';
+import { StorageID } from '../../app/app.component';
 /**
  * Page for displaying passwords
  */
@@ -18,14 +20,12 @@ export class PasswordsPage extends SecureItemsPage<Password>{
 
   /**
    * Intializes __PasswordsPage__
-   * @param navCtrl Nav Controller
-   * @param navParams Nav Params
    * @param modalCtrl Modal Controller
+   * @param keychain Keychain Provider
    */
-  constructor(public navCtrl: NavController, 
-    public navParams: NavParams, 
-    public modalCtrl : ModalController) {
-      super(navCtrl,navParams,modalCtrl, PASSWORD_SCHEMA)
+  constructor(
+    modalCtrl : ModalController, keychain : KeychainProvider) {
+      super(modalCtrl,keychain, PASSWORD_SCHEMA, StorageID.passwords)
   }
 
 
