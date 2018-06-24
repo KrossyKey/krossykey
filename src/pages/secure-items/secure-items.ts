@@ -37,10 +37,14 @@ export abstract class SecureItemsPage<T extends Identified> {
     constructor(
       private modalCtrl : ModalController, private keychain: KeychainProvider,
        private schema: {}, private storageID : StorageID) {
-        this.keychain.doneLoading.then(() => {
-          this.rawItems = keychain.getKeychain(this.storageID) as T[]
-          this.itemGroups = this.sortItems(this.rawItems)
-        })
+        const keychainUnlocked = this.keychain.unlockKeychain('12345')
+        if (keychainUnlocked){
+          keychainUnlocked.then(() => {
+            this.rawItems = keychain.getKeychain(this.storageID) as T[]
+            this.itemGroups = this.sortItems(this.rawItems)
+          })
+        }
+
     }
 
 
@@ -109,7 +113,7 @@ export abstract class SecureItemsPage<T extends Identified> {
                 (filtered : T) =>  filtered.uuid !== newItem.uuid)
               this.rawItems.push(newItem)
               this.itemGroups = this.sortItems(this.rawItems)
-              this.keychain.setKeychain(this.storageID,this.rawItems)
+              this.keychain.setKeychain("12345",this.storageID,this.rawItems)
             }
           }
         })
@@ -143,7 +147,7 @@ export abstract class SecureItemsPage<T extends Identified> {
               (filtered : T) =>  filtered.uuid === item.uuid).length === 0)){
             this.rawItems.push(item)
             this.itemGroups = this.sortItems(this.rawItems)
-            this.keychain.setKeychain(this.storageID,this.rawItems)
+            this.keychain.setKeychain('12345',this.storageID,this.rawItems)
           }
       });
       editModal.present();
