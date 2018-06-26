@@ -9,7 +9,7 @@ export interface Keychain{
 }
 
 export let KEYCHAIN_DEFAULT = {
-    passwords:[SamplePassword],
-    secureNotes:[SampleSecureNote],
-    twoFactors:[SampleTwoFactor],
+    passwords:[],
+    secureNotes:[],
+    twoFactors:[],
 }

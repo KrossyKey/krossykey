@@ -6,6 +6,9 @@
         <button ion-button (click)="dismiss()">
           <span ion-text>{{ 'options.close' | translate }}</span>
         </button>
+      </ion-buttons>
+      <ion-buttons end>
+
         <button ion-button (click)="save()" [disabled]="!(form.valid)">
             <span ion-text>{{ 'options.save' | translate }}</span>
           </button>

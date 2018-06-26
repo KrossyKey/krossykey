@@ -17,7 +17,8 @@
         "save": "Save",
         "dismiss": "Dismiss",
         "close": "Close",
-        "delete": "Delete"
+        "delete": "Delete",
+        "unlock": "Unlock"
     },
 
     "formTitles" : {
@@ -33,6 +34,8 @@
 
     "validation":{
         "invalidForm": "Invalid Form",
-        "invalidKeychain": "Invalid Keychain"
+        "invalidKeychain": "Invalid Keychain",
+        "invalidPassphrase": "Invalid Passphrase"
+
     }
 }
