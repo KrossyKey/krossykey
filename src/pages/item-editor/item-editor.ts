@@ -52,20 +52,20 @@ export class ItemEditorPage<T> {
    */
   constructor(public viewCtrl: ViewController, public navParams: NavParams, 
     formBuilder: FormBuilder, private localizedToastProvider : LocalizedToastProvider) {
-    this.item = navParams.get('item') as T
-    this.addItem = navParams.get('addItem') as boolean
-    this.schema = navParams.get('schema') as boolean
+    this.item = navParams.get('item') as T;
+    this.addItem = navParams.get('addItem') as boolean;
+    this.schema = navParams.get('schema') as boolean;
 
-    this.validationProvider = new ValidationService(this.schema,this.item)
+    this.validationProvider = new ValidationService(this.schema,this.item);
 
     this.previousVal = JSON.parse(JSON.stringify(this.item));
-    const validators = {}
-    this.properties = Object.keys(this.item).filter((item : string) => item != "uuid" )
+    const validators = {};
+    this.properties = Object.keys(this.item).filter((item : string) => item !== "uuid" );
     this.properties.forEach(property => {
       
         validators[property] =  new FormControl('', Validators.compose([
           Validators.minLength(1)
-        ]))
+        ]));
     });
 
     this.form = formBuilder.group(validators);
@@ -92,7 +92,7 @@ export class ItemEditorPage<T> {
     if (this.form.valid && this.validationProvider.isValid){
       this.viewCtrl.dismiss(this.item);
     }else{
-      this.localizedToastProvider.displayToastFor('validation.invalidForm')
+      this.localizedToastProvider.displayToastFor('validation.invalidForm');
     }
     
   }

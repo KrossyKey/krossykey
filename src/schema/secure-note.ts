@@ -22,4 +22,4 @@ export let SECURE_NOTE_SCHEMA = {
 
     additionalProperties:false,
     required: ["title", "body", "url","uuid"]
-}
+};

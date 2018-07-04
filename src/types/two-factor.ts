@@ -23,11 +23,3 @@ export let TWO_FACTOR_DEFAULT:TwoFactor = {
     key:"",
     uuid:""
 };
-
-
-export let SampleTwoFactor:TwoFactor = {
-    userName:"afshawn",
-    url:"www.google.com",
-    key:"hxdm vjec jjws rb3h wizr 4ifu gftm xboz",
-    uuid:"12345"
-};

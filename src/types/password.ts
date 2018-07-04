@@ -30,11 +30,3 @@ export let PASSWORD_DEFAULT:Password = {
     uuid:""
 
 };
-
-export let SamplePassword:Password = {
-    title:"Personal",
-    userName:"afshawn",
-    password:"password",
-    url:"www.google.com",
-    uuid:"123456"
-}

@@ -22,4 +22,4 @@ export let TWO_FACTOR_SCHEMA = {
 
     additionalProperties:false,
     required: ["userName", "url", "key","uuid"]
-}
+};

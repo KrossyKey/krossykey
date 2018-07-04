@@ -3,12 +3,16 @@
         "passwords" : "Passwords",
         "twoFactor" : "Two Factor",
         "secureNotes": "Secure Notes",
-        "editPassword": "Edit Password"
+        "editPassword": "Edit Password",
+        "settings": "Settings"
 
     },
 
+
     "options" : {
         "password" : "Password",
+        "passwordOld" : "Old Password",
+        "passwordNew" : "New Password",
         "secureNote": "Secure Note",
         "show": "Show",
         "hide": "Hide",
@@ -18,7 +22,13 @@
         "dismiss": "Dismiss",
         "close": "Close",
         "delete": "Delete",
-        "unlock": "Unlock"
+        "unlock": "Unlock",
+        "ok": "Okay",
+        "done": "Done",
+        "cancel": "Cancel",
+        "confirm": "Confirm",
+        "changePassword": "Change Password",
+        "exportKeychain": "Export Keychain"
     },
 
     "formTitles" : {
@@ -35,7 +45,9 @@
     "validation":{
         "invalidForm": "Invalid Form",
         "invalidKeychain": "Invalid Keychain",
-        "invalidPassphrase": "Invalid Passphrase"
+        "invalidPassphrase": "Invalid Passphrase",
+        "successPassChange": "Successfully Changed Password",
+        "failedPassChange": "Failed To Change Password"
 
     }
 }

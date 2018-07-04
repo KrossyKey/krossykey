@@ -18,6 +18,8 @@ import { LocalizedToastProvider } from '../providers/localized-toast/localized-t
 import { AuthenticatePage } from '../pages/authenticate/authenticate';
 import { CryptoProvider } from '../providers/crypto/crypto';
 import { NewKeychainPage } from '../pages/new-keychain/new-keychain';
+import {SecureStorage} from '@ionic-native/secure-storage';
+import { SettingsPage } from '../pages/settings/settings';
 
 @NgModule({
   declarations: [
@@ -27,7 +29,8 @@ import { NewKeychainPage } from '../pages/new-keychain/new-keychain';
     PasswordsPage,
     ItemEditorPage,
     AuthenticatePage,
-    NewKeychainPage
+    NewKeychainPage,
+    SettingsPage
   ],
   imports: [
     BrowserModule,
@@ -35,6 +38,7 @@ import { NewKeychainPage } from '../pages/new-keychain/new-keychain';
       name: 'krossykey',
          driverOrder: ['sqlite', 'indexedb', 'websql',"localstorage"]
     }),
+    
     NgCircleProgressModule.forRoot({
       // set defaults here
       radius: 100,
@@ -64,10 +68,12 @@ import { NewKeychainPage } from '../pages/new-keychain/new-keychain';
     PasswordsPage,
     ItemEditorPage,
     AuthenticatePage,
-    NewKeychainPage
+    NewKeychainPage,
+    SettingsPage
   ],
   providers: [
     StatusBar,
+    SecureStorage,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     KeychainProvider,

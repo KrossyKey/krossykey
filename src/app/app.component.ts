@@ -7,11 +7,24 @@ import { TwoFactorPage } from '../pages/two-factor/two-factor';
 import { SecureNotesPage } from '../pages/secure-notes/secure-notes';
 import { TranslateService } from '@ngx-translate/core';
 import { KeychainProvider } from '../providers/keychain/keychain';
+import { SettingsPage } from '../pages/settings/settings';
 
+/**
+ * Storage IDs
+ */
 export enum StorageID{
   passwords = "passwords",
   twoFactors = "twoFactors",
   secureNotes = "secureNotes"
+}
+
+/**
+ * App Mode
+ */
+export enum Mode{
+  desktop,
+  mobile,
+  browser
 }
 
 
@@ -23,6 +36,13 @@ export enum StorageID{
   templateUrl: 'app.html'
 })
 export class AppComponent {
+
+
+  /**
+   * States what mode keychain is set for
+   */
+  static readonly mode:Mode = Mode.desktop;
+
   /**
    * Navigation
    */
@@ -49,25 +69,24 @@ export class AppComponent {
     public platform: Platform, 
     public statusBar: StatusBar, 
     public splashScreen: SplashScreen,
-    private readKeychainProvider : KeychainProvider) {
+    private keychainProvider : KeychainProvider) {
     this.initializeApp();
 
 
 
-        // this language will be used as a fallback when a translation isn't found in the current language
-        translate.setDefaultLang('en');
+    // this language will be used as a fallback when a translation isn't found in the current language
+    translate.setDefaultLang('en');
 
-         // the lang to use, if the lang isn't available, it will use the current loader to get them
-        translate.use('en');
+    // the lang to use, if the lang isn't available, it will use the current loader to get them
+    translate.use('en');
     // used for an example of ngFor and navigation
     translate.get('titles').subscribe((titles: any) => {
       this.pages = [
         { title: titles.passwords, component: PasswordsPage },
         { title: titles.twoFactor, component: TwoFactorPage },
-        { title: titles.secureNotes, component: SecureNotesPage }
-  
+        { title: titles.secureNotes, component: SecureNotesPage },
+        { title: titles.settings, component: SettingsPage }
       ];
-
     });
     
   }
@@ -76,6 +95,11 @@ export class AppComponent {
    */
   initializeApp() {
     this.platform.ready().then(() => {
+      this.keychainProvider.removePassphraseSecurely().then((success : boolean) => {
+        // if (!(success)){
+        //   this.initializeApp()
+        // }
+      });
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
       this.statusBar.styleDefault();
@@ -88,6 +112,6 @@ export class AppComponent {
    * @param page Page to open
    */
   openPage(page) {
-    this.nav.setRoot(page.component)
+    this.nav.setRoot(page.component);
   }
 }

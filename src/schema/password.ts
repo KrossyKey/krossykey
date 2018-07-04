@@ -26,4 +26,4 @@ export let PASSWORD_SCHEMA = {
 
     additionalProperties:false,
     required: ["title", "userName", "password", "url","uuid"]
-}
+};

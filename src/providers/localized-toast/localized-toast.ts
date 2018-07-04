@@ -18,7 +18,7 @@ export class LocalizedToastProvider {
   displayToastFor(i18n : string){
     this.translate.get(i18n).subscribe((res: string) => {
   
-      let toast = this.toastCtrl.create({
+      const toast = this.toastCtrl.create({
         message: res,
         duration: 3000,
         position: 'bottom'

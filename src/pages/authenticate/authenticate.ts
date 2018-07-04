@@ -1,13 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
 
-/**
- * Generated class for the AuthenticatePage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
-
 @IonicPage()
 @Component({
   selector: 'page-authenticate',
@@ -18,9 +11,9 @@ export class AuthenticatePage {
 /**
  * Passphrase to authenticate
  */
-private passphrase:string = ""
+private passphrase = "";
 
-/**
+  /**
    * Intializes EditPasswordPage
    * @param viewCtrl View Controller
    * @param navParams Navigation Parameters

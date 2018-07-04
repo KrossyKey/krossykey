@@ -1,27 +1,27 @@
-import Ajv from 'ajv'
+import Ajv from 'ajv';
 
 export function ValidationExtensions(ajv : Ajv.Ajv):Ajv.Ajv{
     ajv.addKeyword('validateAllForSchema', {
         type: 'array',
-        compile: function (schema : {}) {
+        compile (schema : {}) {
 
-            var valAjv = new Ajv();
-            var validate = valAjv.compile(schema);
+            const valAjv = new Ajv();
+            const validate = valAjv.compile(schema);
       
-            return function (data) {
-                var isValid = true
-                for(var dataObject of data) {
+            return  (data) => {
+                let isValid = true;
+                for(const dataObject of data) {
                     if (!(validate(dataObject) as boolean)){
-                        isValid = false
-                        break
+                        isValid = false;
+                        break;
                     }
 
                 } 
                 return isValid;
-            }
+            };
         }
     });
 
-    return ajv
+    return ajv;
       
 }

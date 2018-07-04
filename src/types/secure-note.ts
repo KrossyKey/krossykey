@@ -24,10 +24,3 @@ export let SECURE_NOTE_DEFAULT:SecureNote = {
     url:"",
     uuid:""
 };
-
-export let SampleSecureNote:SecureNote = {
-    title:"Cool",
-    body:"BlaBal",
-    url:"www.google.com",
-    uuid:"12345"
-};

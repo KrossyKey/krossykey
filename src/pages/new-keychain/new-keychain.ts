@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
+import { IonicPage, NavParams, ViewController } from 'ionic-angular';
 import { CryptoProvider } from '../../providers/crypto/crypto';
 import { KEYCHAIN_DEFAULT } from '../../types/keychain';
-
+import { Storage } from '@ionic/storage';
 /**
  * Generated class for the NewKeychainPage page.
  *
@@ -18,26 +18,29 @@ import { KEYCHAIN_DEFAULT } from '../../types/keychain';
 
 export class NewKeychainPage {
 
-  private passphrase:string = "";
+  private passphrase = "";
 
-  constructor(private viewCtrl: ViewController, private navParams: NavParams, private crypto : CryptoProvider) {
+  constructor(private viewCtrl: ViewController,
+    private crypto : CryptoProvider, private storage : Storage) {
   }
 
 
   createKeychain(passphrase : string){
-    this.crypto.encryptObject(passphrase, KEYCHAIN_DEFAULT).then((encrypted : string) =>{
-      this.viewCtrl.dismiss(encrypted)
-    })       
+    this.crypto.encryptObjectFromPhrase(passphrase, KEYCHAIN_DEFAULT).then((encrypted : string) =>{
+      this.viewCtrl.dismiss(encrypted);
+    });       
   }
 
   importKeychain(file : File){
-
-    var reader = new FileReader();
+    if (file['path']){
+      this.storage.set('keychainFilePath',file['path']);
+    }
+    const reader = new FileReader();
     reader.readAsText(file);
     const viewCtrl = this.viewCtrl;
-    reader.onload=function(){ 
-      viewCtrl.dismiss(reader.result)
-    }
+    reader.onload= () => {
+      viewCtrl.dismiss(reader.result);
+    };
 
   }
 

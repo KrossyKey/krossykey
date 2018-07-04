@@ -1,15 +1,26 @@
-import { NavController, NavParams, Button, ModalController } from 'ionic-angular';
-import clipboard from 'clipboard-polyfill'
+import { ModalController, Platform } from 'ionic-angular';
+import clipboard from 'clipboard-polyfill';
 import { Identified } from '../../types/identified';
 import { ItemEditorPage } from '../item-editor/item-editor';
-import hash from "object-hash"
+import hash from "object-hash";
 import { StorageID } from '../../app/app.component';
 import { KeychainProvider, StorageResponse } from '../../providers/keychain/keychain';
 import { AuthenticatePage } from '../authenticate/authenticate';
 import { NewKeychainPage } from '../new-keychain/new-keychain';
 
+
+export enum KeychainAction{
+  EDIT,
+  ADD,
+  DELETE,
+  READ
+}
+
+
 export abstract class SecureItemsPage<T extends Identified> {
 
+
+    
     /**
      * Object Defaults
      */
@@ -18,17 +29,19 @@ export abstract class SecureItemsPage<T extends Identified> {
     /**
      * Items being shown
      */
-    private shownItems: {[uuid : string] : null} = {}
+    private shownItems: {[uuid : string] : null} = {};
   
+    private isAuthenticating = false;
+
+    private itemGroups:{[url : string] : T[]} = {};
+
+
+
     /**
      * Raw items
      */
-    private rawItems:T[] = []
-    /**
-     * List of items
-     */
-    private itemGroups: {[url : string] : T[]} = {}
-  
+    private rawItems:T[] = [];
+
   /**
    * Intializes __PasswordsPage__
    * @param modalCtrl Modal Controller
@@ -38,69 +51,120 @@ export abstract class SecureItemsPage<T extends Identified> {
    */
     constructor(
       private modalCtrl : ModalController, private keychain: KeychainProvider,
-       private schema: {}, private storageID : StorageID) {
-        const additionalFunction = (passphase : string) => {
-          this.rawItems = this.keychain.getKeychain(this.storageID) as T[]
-          this.itemGroups = this.sortItems(this.rawItems)
-        }
-        this.authenticate(additionalFunction)
+       private schema: {}, private storageID : StorageID, private platform : Platform) {
+        this.platform.ready().then(() => {
+          this.authenticate(KeychainAction.READ);
+           
+
+
+          this.platform.pause.subscribe(() => {
+
+            this.clearKeychainData();
+            
+          });
+        });
 
     }
 
 
-    authenticate(additionalFunction : Function){
-
-      this.keychain.storage.get('keychain').then((encrypted : string) => {
-
-      if (encrypted){
-        let authenticateModal = this.modalCtrl.create(AuthenticatePage,{},{ enableBackdropDismiss: false });
-        const crytoKey = this.keychain.crypto.getTokenFromCookie("cryptoKey")
-  
-        if (crytoKey){
-          this.setKeychain(crytoKey, additionalFunction)
-        }else{
-          authenticateModal.onDidDismiss((passphase : string) => {
-            if (passphase !== undefined && passphase !== null){
-              this.setKeychain(passphase,additionalFunction)
-            }
-          })
-          authenticateModal.present()
-        }
-      }else{
-        let importModal = this.modalCtrl.create(NewKeychainPage,{},{ enableBackdropDismiss: false });
+    private clearKeychainData(){
+      this.keychain.removePassphraseSecurely();
+      this.rawItems = [];
+      this.itemGroups = {};
+      if (!(this.isAuthenticating)){
+        this.authenticate(KeychainAction.READ);
+      }
         
-        importModal.onDidDismiss((encrypted : string) => {
-          if (encrypted !== undefined && encrypted !== null){
-            this.keychain.storage.set('keychain',encrypted)
-            const additionalFunction = (passphase : string) => {
-              this.rawItems = this.keychain.getKeychain(this.storageID) as T[]
-              this.itemGroups = this.sortItems(this.rawItems)
-            }
-            this.authenticate(additionalFunction)
-          }
-        })
-        importModal.present()
+    }
+  
 
-      }
-      
-    })
+    private authenticate(keychainAction : KeychainAction, item? : T){
+        this.keychain.keychainIsEmpty().then((isEmpty : boolean) => {
+          if (!(isEmpty)){
+            const afterUnlock = (passphrase : string) =>{
+              this.isAuthenticating = true;
+              if (passphrase !== undefined && passphrase !== null){
+                const keychainUnlocked = this.keychain.unlockKeychain(passphrase);
+                  return keychainUnlocked.then((isValid : StorageResponse) => {
+                    if (isValid === StorageResponse.SUCCESS){
+                      this.keychain.getKeychain(this.storageID, passphrase).then((rawItems : T[]) => {
+                        if (item){
+                          switch(keychainAction) {
+                            case KeychainAction.ADD:
+                              this.rawItems = rawItems;
+                              this.rawItems.push(item);
+                              this.keychain.setKeychainProperty(passphrase,this.storageID,this.rawItems);
+                              break;
+                            case KeychainAction.EDIT:
+                              this.rawItems = rawItems.filter(
+                                (filtered : T) =>  filtered.uuid !== item.uuid);
+                              this.rawItems.push(item);
+                              this.keychain.setKeychainProperty(passphrase,this.storageID,this.rawItems);
+                              break;
+                            case KeychainAction.DELETE:
+                              this.rawItems = this.rawItems.filter(
+                                (item : T) =>  item.uuid !== item.uuid);
+                              this.keychain.setKeychainProperty(passphrase,this.storageID,this.rawItems);
+                              break;
+                            default:
+                              break;
+                            
+                          }
+                          this.keychain.storePassphraseSecurely(passphrase);
+                          this.itemGroups = this.getItemGroups(this.rawItems);
+                        }else{
+                          if (keychainAction === KeychainAction.READ){
+                            this.rawItems = rawItems;
+                            this.keychain.storePassphraseSecurely(passphrase);
+                            this.itemGroups = this.getItemGroups(this.rawItems);
+                          }
+                        }
 
+                      });
+                    }else{
+                      this.keychain.removePassphraseSecurely();
+                      this.authenticate(keychainAction,item);
+                    }
+                });
+              }
+            };
+            this.keychain.fetchPassphraseSecurely().then((passphraseFromStorage : string) => {
+              if (passphraseFromStorage !== null && passphraseFromStorage !== undefined){
+                afterUnlock(passphraseFromStorage);
+              }else{
+                
+                const authenticateModal = this.modalCtrl.create(AuthenticatePage,{},{ enableBackdropDismiss: false });
+                authenticateModal.onDidDismiss((passphrase : string) => {
+                  afterUnlock(passphrase);
+                  this.isAuthenticating = false;
+                });
+                authenticateModal.present();
+
+              }
+            });
+
+        }else{
+          this.configureKeychain();
+        }
+      });
     }
 
-    setKeychain(passphase : string, additonalFunction : Function){
-      const keychainUnlocked = this.keychain.unlockKeychain(passphase)
-      if (keychainUnlocked){
-        return keychainUnlocked.then((isValid : StorageResponse) => {
-          if (isValid === StorageResponse.SUCCESS){
-            additonalFunction(passphase)
-            this.keychain.crypto.setTokenInCookie("cryptoKey",passphase,180*1000)
-          }else{
-            this.keychain.crypto.deleteCookie("cryptoKey")
-            this.authenticate(additonalFunction)
-          }
-        })
-      }
+
+    private configureKeychain(){
+      const importModal = this.modalCtrl.create(NewKeychainPage,{},{ enableBackdropDismiss: false });
+        
+      importModal.onDidDismiss((encrypted : string) => {
+        if (encrypted !== undefined && encrypted !== null){
+          this.keychain.setRawKeychain(encrypted);
+          this.authenticate(KeychainAction.READ);
+          this.isAuthenticating = false;
+
+        }
+      });
+      importModal.present();
     }
+
+
 
 
     
@@ -108,25 +172,26 @@ export abstract class SecureItemsPage<T extends Identified> {
      * Sorts items by url
      * @param items All Items 
      */
-    sortItems(items : T[]):{[url : string] : T[]}{      
-      const itemGroups:{[property : string] : T[] } = {}
+    private getItemGroups(items : T[]):{[url : string] : T[]}{      
+      const itemGroups:{[property : string] : T[] } = {};
       items.forEach(item => {
         if (itemGroups[item.url]){
-          itemGroups[item.url].push(item)
+          itemGroups[item.url].push(item);
         }else{
-          itemGroups[item.url] = []
-          itemGroups[item.url].push(item)
+          itemGroups[item.url] = [];
+          itemGroups[item.url].push(item);
         }
       });
-      return itemGroups
+      return itemGroups;
     }
+
   
     /**
      * Gets all item groups
      * @param itemGroups Item groups
      */
-    itemGroupsNames(itemGroups : {[url : string] : T[]}):string[]{
-      return Object.keys(itemGroups)
+    private itemGroupsNames(itemGroups : {[url : string] : T[]}):string[]{
+      return Object.keys(itemGroups);
     }
   
     /**
@@ -134,15 +199,15 @@ export abstract class SecureItemsPage<T extends Identified> {
      * @param uuid UUID of item
      */
     showItem(uuid : string){
-      this.shownItems[uuid] = null
+      this.shownItems[uuid] = null;
     }
   
     /**
      * Hides a specific item
      * @param uuid UUID of item
      */
-    hideItem(uuid : string){
-      delete this.shownItems[uuid]
+    private hideItem(uuid : string){
+      delete this.shownItems[uuid];
     }
   
     /**
@@ -158,28 +223,17 @@ export abstract class SecureItemsPage<T extends Identified> {
      * @param item __Identified<T>__
      */
     private editItem(item : T){
-      const oldChecksum = hash(item)
-        let editModal = this.modalCtrl
+      const oldChecksum = hash(item);
+        const editModal = this.modalCtrl
           .create(ItemEditorPage, { item: JSON.parse(JSON.stringify(item)) as T, addItem : false, schema : this.schema });
         editModal.onDidDismiss((newItem : T) => {
           if (newItem !== undefined && newItem !== null){
-            const newChecksum = hash(newItem)
+            const newChecksum = hash(newItem);
             if (oldChecksum !== newChecksum){
-
-              const additionalFunction = (passphase : string) => {
-                this.rawItems = this.rawItems.filter(
-                  (filtered : T) =>  filtered.uuid !== newItem.uuid)
-                this.rawItems.push(newItem)
-                this.itemGroups = this.sortItems(this.rawItems)
-                this.keychain.setKeychainProperty(passphase,this.storageID,this.rawItems)
-
-              }
-
-              this.authenticate(additionalFunction)
-
+              this.authenticate(KeychainAction.EDIT, newItem);
             }
           }
-        })
+        });
         editModal.present();
     }
   
@@ -187,34 +241,30 @@ export abstract class SecureItemsPage<T extends Identified> {
      * Delete item
      * @param uuid Identifier of item
      */
-    private deleteItem(uuid : string){
-      this.rawItems = this.rawItems.filter(
-        (item : T) =>  item.uuid !== uuid);
-      this.itemGroups = this.sortItems(this.rawItems)
+    private deleteItem(item : T){
+      this.authenticate(KeychainAction.DELETE, item);
+      // Gooz
+      // this.itemGroups = this.sortItems(this.rawItems)
     }
   
     /**
      * Adds item
      */
     private addItem(){
-      const epoch = (new Date).getTime();
-      const uuid = hash(epoch + "com.krossykey.identifier")
-      const defaults = (JSON.parse(JSON.stringify(this.objectDefaults)) as T)
-      defaults.uuid = uuid
+      const date = new Date();
+      const epoch = date.getTime();
+      const uuid = hash(epoch + "com.krossykey.identifier");
+      const defaults = (JSON.parse(JSON.stringify(this.objectDefaults)) as T);
+      defaults.uuid = uuid;
 
-      let editModal = this.modalCtrl
+      const editModal = this.modalCtrl
         .create(ItemEditorPage, { item: defaults , addItem : true, schema : this.schema});
-      editModal.onDidDismiss((item : T)=> {
-        if (item !== undefined && item !== null && (
+      editModal.onDidDismiss((newItem : T)=> {
+        if (newItem !== undefined && newItem !== null && (
             this.rawItems.filter(
-              (filtered : T) =>  filtered.uuid === item.uuid).length === 0)){
-            const additionalFunction = (passphase : string) => {
-              this.rawItems.push(item)
-              this.itemGroups = this.sortItems(this.rawItems)
-              this.keychain.setKeychainProperty(passphase,this.storageID,this.rawItems)
-            }
-            this.authenticate(additionalFunction)
-          }
+              (filtered : T) =>  filtered.uuid === newItem.uuid).length === 0)){
+                this.authenticate(KeychainAction.ADD, newItem);
+              }
       });
       editModal.present();
     }

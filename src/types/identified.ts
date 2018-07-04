@@ -6,5 +6,5 @@ export interface Identified{
     /**
      * Url of object
      */
-    readonly url:string
+    readonly url:string;
 }

@@ -17,9 +17,13 @@ export let KEYCHAIN_SCHEMA = {
         twoFactors:{
             type: "array",
             validateAllForSchema: TWO_FACTOR_SCHEMA
+        },
+        settings:{
+            type: "array",
+            validateAllForSchema: TWO_FACTOR_SCHEMA
         }
     },
 
     additionalProperties:false,
     required: ["passwords", "secureNotes", "twoFactors"]
-}
+};
