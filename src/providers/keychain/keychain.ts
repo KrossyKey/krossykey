@@ -178,7 +178,7 @@ export class KeychainProvider {
           this._storageResp = StorageResponse.KEYCHAIN_NOT_SET;
           this._keychain = KEYCHAIN_DEFAULT;
           return this.crypto.encryptObjectFromPhrase(passphrase, this._keychain).then((encrypted : string) =>{
-            this.setRawKeychain(encrypted);
+            this.setRawKeychain(encrypted)
             return this._storageResp;
           });       
         }
@@ -230,14 +230,15 @@ export class KeychainProvider {
       if (encrypted){
         return false;
       }else{
+        this._storageResp = StorageResponse.KEYCHAIN_NOT_SET
         return true;
       }
     });
   }
 
 
-  setKeychainPath(path : string){
-    this.storage.set('keychainFilePath',path);
+  setKeychainPath(path : string):Promise<void>{
+    return this.storage.set('keychainFilePath',path);
   }
 
   deleteKeychainPath(){
@@ -248,16 +249,27 @@ export class KeychainProvider {
     return this.storage.get('keychainFilePath');
   }
 
-  setRawKeychain(rawKeychain : string){
+  setRawKeychain(rawKeychain : string):Promise<void>{
     if (AppComponent.mode === Mode.desktop){
-      this.getKeychainPath().then((path : string) =>{
+
+      return this.getKeychainPath().then((path : string) =>{
       //--! const fs = require('fs');
-      //--! fs.writeFileSync(path, rawKeychain);
+      if (path){
+        //--! fs.writeFile(path, rawKeychain);
+      }else{
+        //--! const {dialog} = require("electron").remote;
+        //--! var savePath = dialog.showSaveDialog({defaultPath : "~/keychain.kk"});
+        //--! path = savePath
+        //--! fs.writeFile(savePath, rawKeychain)
+        return this.setKeychainPath(path)
+      }
+      
       });
 
     }else{
       this.storage.set('keychain',rawKeychain);
     }
+
   }
 
   getRawKeychain():Promise<string>{

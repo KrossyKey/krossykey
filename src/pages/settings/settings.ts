@@ -35,9 +35,6 @@ export class SettingsPage {
       }
     });
   }
-  exportKeychain(){
-    
-  }
 
 
 }

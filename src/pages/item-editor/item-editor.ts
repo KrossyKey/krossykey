@@ -1,8 +1,10 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavParams, ViewController, ToastController } from 'ionic-angular';
+import { IonicPage, NavParams, ViewController, ToastController, ModalController } from 'ionic-angular';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { ValidationService } from '../../services/validation/validation';
 import { LocalizedToastProvider } from '../../providers/localized-toast/localized-toast';
+import { PasswordGeneratorPage } from '../password-generator/password-generator';
+import { Password } from '../../types/password';
 /**
  * Edit and add passwords
  */
@@ -51,7 +53,7 @@ export class ItemEditorPage<T> {
    * @param translate Translation Service
    */
   constructor(public viewCtrl: ViewController, public navParams: NavParams, 
-    formBuilder: FormBuilder, private localizedToastProvider : LocalizedToastProvider) {
+    formBuilder: FormBuilder, private localizedToastProvider : LocalizedToastProvider, private modalCtrl : ModalController) {
     this.item = navParams.get('item') as T;
     this.addItem = navParams.get('addItem') as boolean;
     this.schema = navParams.get('schema') as boolean;
@@ -71,6 +73,22 @@ export class ItemEditorPage<T> {
     this.form = formBuilder.group(validators);
   
   }
+
+
+  presentPasswordGenerator(id : string){
+    const passwordGenModal = this.modalCtrl.create(PasswordGeneratorPage, {});
+    passwordGenModal.onDidDismiss((genPassword : string) => {
+
+      if (genPassword !== undefined && genPassword !== null){
+        this.item["password"] = genPassword
+        
+      }
+    });
+    passwordGenModal.present();
+  }
+
+
+  
 
   /**
    * Dismisses Page 

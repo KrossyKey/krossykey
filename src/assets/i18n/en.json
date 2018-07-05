@@ -9,7 +9,17 @@
     },
 
 
+    "passwordOptions": {
+        "special" : "Special",
+        "numeric" : "Numeric",
+        "upper" : "Upper Case",
+        "lower" : "Lower Case"
+
+    },
+
     "options" : {
+        "options" : "Options",
+        "length" : "Length",
         "password" : "Password",
         "passwordOld" : "Old Password",
         "passwordNew" : "New Password",
@@ -25,6 +35,7 @@
         "unlock": "Unlock",
         "ok": "Okay",
         "done": "Done",
+        "set": "Set",
         "cancel": "Cancel",
         "confirm": "Confirm",
         "changePassword": "Change Password",

@@ -5,6 +5,7 @@ import { SecureItemsPage } from '../secure-items/secure-items';
 import { PASSWORD_SCHEMA } from '../../schema/password';
 import { KeychainProvider } from '../../providers/keychain/keychain';
 import { StorageID } from '../../app/app.component';
+
 /**
  * Page for displaying passwords
  */

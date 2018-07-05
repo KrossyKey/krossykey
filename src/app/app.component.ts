@@ -8,6 +8,7 @@ import { SecureNotesPage } from '../pages/secure-notes/secure-notes';
 import { TranslateService } from '@ngx-translate/core';
 import { KeychainProvider } from '../providers/keychain/keychain';
 import { SettingsPage } from '../pages/settings/settings';
+import { PasswordGeneratorProvider } from '../providers/password-generator/password-generator';
 
 /**
  * Storage IDs
@@ -72,8 +73,6 @@ export class AppComponent {
     private keychainProvider : KeychainProvider) {
     this.initializeApp();
 
-
-
     // this language will be used as a fallback when a translation isn't found in the current language
     translate.setDefaultLang('en');
 
@@ -95,11 +94,7 @@ export class AppComponent {
    */
   initializeApp() {
     this.platform.ready().then(() => {
-      this.keychainProvider.removePassphraseSecurely().then((success : boolean) => {
-        // if (!(success)){
-        //   this.initializeApp()
-        // }
-      });
+      this.keychainProvider.removePassphraseSecurely()
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
       this.statusBar.styleDefault();

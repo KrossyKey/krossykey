@@ -18,8 +18,10 @@ import { LocalizedToastProvider } from '../providers/localized-toast/localized-t
 import { AuthenticatePage } from '../pages/authenticate/authenticate';
 import { CryptoProvider } from '../providers/crypto/crypto';
 import { NewKeychainPage } from '../pages/new-keychain/new-keychain';
-import {SecureStorage} from '@ionic-native/secure-storage';
+import {SecureStorage} from '@ionic-native/secure-storage'
 import { SettingsPage } from '../pages/settings/settings';
+import { PasswordGeneratorProvider } from '../providers/password-generator/password-generator';
+import { PasswordGeneratorPage } from '../pages/password-generator/password-generator';
 
 @NgModule({
   declarations: [
@@ -30,7 +32,8 @@ import { SettingsPage } from '../pages/settings/settings';
     ItemEditorPage,
     AuthenticatePage,
     NewKeychainPage,
-    SettingsPage
+    SettingsPage,
+    PasswordGeneratorPage
   ],
   imports: [
     BrowserModule,
@@ -69,7 +72,8 @@ import { SettingsPage } from '../pages/settings/settings';
     ItemEditorPage,
     AuthenticatePage,
     NewKeychainPage,
-    SettingsPage
+    SettingsPage,
+    PasswordGeneratorPage
   ],
   providers: [
     StatusBar,
@@ -78,7 +82,8 @@ import { SettingsPage } from '../pages/settings/settings';
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     KeychainProvider,
     LocalizedToastProvider,
-    CryptoProvider
+    CryptoProvider,
+    PasswordGeneratorProvider
   ]
 })
 export class AppModule {}

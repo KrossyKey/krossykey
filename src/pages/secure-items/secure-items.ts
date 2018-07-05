@@ -155,10 +155,10 @@ export abstract class SecureItemsPage<T extends Identified> {
         
       importModal.onDidDismiss((encrypted : string) => {
         if (encrypted !== undefined && encrypted !== null){
-          this.keychain.setRawKeychain(encrypted);
-          this.authenticate(KeychainAction.READ);
-          this.isAuthenticating = false;
-
+          this.keychain.setRawKeychain(encrypted).then(() => {
+            this.authenticate(KeychainAction.READ);
+            this.isAuthenticating = false;
+          })
         }
       });
       importModal.present();

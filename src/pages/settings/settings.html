@@ -37,14 +37,6 @@
 
         <button (click) = "changePassword(oldPass,newPass)" [disabled] = "!(oldPass !== '' && newPass !== '' && newPass === confPass)" ion-button block>{{ 'options.changePassword' | translate }}</button>
 
-        <br>
-        <br>
-
-
-        <button (click) = "exportKeychain()" ion-button block>{{ 'options.exportKeychain' | translate }}</button>
-
-
-
 
 
     </ion-list>
