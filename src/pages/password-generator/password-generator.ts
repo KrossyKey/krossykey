@@ -16,17 +16,17 @@ import { PasswordGeneratorProvider, PasswordOption } from '../../providers/passw
 })
 export class PasswordGeneratorPage {
 
-  private passwordLength:number = 20
-  private options = [PasswordOption.numeric,PasswordOption.upper,PasswordOption.lower,PasswordOption.special]
-  private generatedPassword:string = ""
+  private passwordLength = 20;
+  private options = [PasswordOption.numeric,PasswordOption.upper,PasswordOption.lower,PasswordOption.special];
+  private generatedPassword = "";
   constructor(private viewCtrl: ViewController, private passwordGenerator : PasswordGeneratorProvider) {
-    this.generatedPassword = this.passwordGenerator.generate(this.passwordLength,this.options)
+    this.generatedPassword = this.passwordGenerator.generate(this.passwordLength,this.options);
   }
 
 
 
   private updatePassword(){
-    this.generatedPassword = this.passwordGenerator.generate(this.passwordLength,this.options)
+    this.generatedPassword = this.passwordGenerator.generate(this.passwordLength,this.options);
   }
 
   /**

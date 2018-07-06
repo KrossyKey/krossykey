@@ -1,32 +1,37 @@
 import { Identified } from "./identified";
 
 /**
- * Password model
+ * Account model
  */
-export interface Password extends Identified{
+export interface Account extends Identified{
     /**
-     * Title of password
+     * Title of account
      */
     readonly title:string;
     /**
-     * Username for password
+     * Username for account
      */
     readonly userName:string;
     /**
-     * Password of password
+     * Password of account
      */
     readonly password:string;
+    /**
+     * Two factor key of account
+     */
+    readonly twoFactor:string;
 
 }
 
 /**
  * Password model default
  */
-export let PASSWORD_DEFAULT:Password = {
+export let ACCOUNT_DEFAULT:Account = {
     title:"",
     userName:"",
     password:"",
     url:"",
+    twoFactor:"",
     uuid:""
 
 };

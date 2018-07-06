@@ -1,45 +1,50 @@
-
 <ion-header>
-    <ion-navbar>
-      <button ion-button menuToggle>
+  <ion-navbar>
+    <button ion-button
+            menuToggle>
         <ion-icon name="menu"></ion-icon>
       </button>
-   
-      <ion-title>{{ 'titles.settings' | translate }}</ion-title>
-    </ion-navbar>
-  </ion-header>
-  
-  
-  <ion-content padding>
-  
-    <ion-list>
-        <ion-list-header>
-            <h1>
-                {{ 'options.changePassword' | translate }}
-            </h1>
-        </ion-list-header>
 
-        <ion-item>
-            <ion-label>{{ 'options.passwordOld' | translate }}</ion-label>
-            <ion-input [(ngModel)]= "oldPass" type="password"></ion-input>
-        </ion-item>
-
-        <ion-item>
-            <ion-label>{{ 'options.passwordNew' | translate }}</ion-label>
-            <ion-input [(ngModel)]= "newPass" type="password"></ion-input>
-        </ion-item>
-        <ion-item>
-            <ion-label>{{ 'options.confirm' | translate }}</ion-label>
-            <ion-input [(ngModel)]= "confPass" type="password"></ion-input>
-        </ion-item>
-
-        <br>
-
-        <button (click) = "changePassword(oldPass,newPass)" [disabled] = "!(oldPass !== '' && newPass !== '' && newPass === confPass)" ion-button block>{{ 'options.changePassword' | translate }}</button>
+    <ion-title>{{ 'titles.settings' | translate }}</ion-title>
+  </ion-navbar>
+</ion-header>
 
 
+<ion-content padding>
 
-    </ion-list>
-  
-  </ion-content>
-  
+  <ion-list>
+    <ion-list-header>
+      <h1>
+        {{ 'options.changePassword' | translate }}
+      </h1>
+    </ion-list-header>
+
+    <ion-item>
+      <ion-label>{{ 'options.passwordOld' | translate }}</ion-label>
+      <ion-input [(ngModel)]="oldPass"
+                 type="password"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>{{ 'options.passwordNew' | translate }}</ion-label>
+      <ion-input [(ngModel)]="newPass"
+                 type="password"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>{{ 'options.confirm' | translate }}</ion-label>
+      <ion-input [(ngModel)]="confPass"
+                 type="password"></ion-input>
+    </ion-item>
+
+    <br>
+
+    <button (click)="changePassword(oldPass,newPass)"
+            [disabled]="!(oldPass !== '' && newPass !== '' && newPass === confPass)"
+            ion-button
+            block>{{ 'options.changePassword' | translate }}</button>
+
+
+
+  </ion-list>
+
+</ion-content>

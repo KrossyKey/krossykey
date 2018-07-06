@@ -1,16 +1,13 @@
-import { Password } from "./password";
+import { Account } from "./account";
 import { SecureNote } from "./secure-note";
-import { TwoFactor } from "./two-factor";
 
 export interface Keychain{
-    passwords:Password[];
+    accounts:Account[];
     secureNotes:SecureNote[];
-    twoFactors:TwoFactor[];
 
 }
 
 export let KEYCHAIN_DEFAULT = {
-    passwords:[],
+    accounts:[],
     secureNotes:[],
-    twoFactors:[],
 };

@@ -1,15 +1,17 @@
-
 <ion-header>
 
   <ion-navbar>
     <ion-buttons start>
-        <button ion-button (click)="dismiss()">
+      <button ion-button
+              (click)="dismiss()">
           <span ion-text>{{ 'options.close' | translate }}</span>
         </button>
-      </ion-buttons>
-      <ion-buttons end>
+    </ion-buttons>
+    <ion-buttons end>
 
-        <button ion-button (click)="save()" [disabled]="!(form.valid)">
+      <button ion-button
+              (click)="save()"
+              [disabled]="!(form.valid)">
             <span ion-text>{{ 'options.save' | translate }}</span>
           </button>
     </ion-buttons>
@@ -21,17 +23,31 @@
 
 <ion-content padding>
 
-    <form class="form" [formGroup]="form">
-        <ion-item *ngFor = "let property of properties">
-            <ion-label floating>{{ 'formTitles.' + property | translate }}</ion-label>
-          <ion-input *ngIf = "property !== 'body'" [(ngModel)] = "item[property]" type="text" [formControlName]="property" required></ion-input>
-          <ion-buttons *ngIf = "property === 'password'" item-end middle>
-            <button (click) = "presentPasswordGenerator(property)" ion-fab mini><ion-icon name="key"></ion-icon></button>
-          </ion-buttons>
-          <ion-textarea *ngIf = "property === 'body'" rows = "8" [(ngModel)] = "item[property]" type="text" [formControlName]="property" required></ion-textarea>
+  <form class="form"
+        [formGroup]="form">
+    <ion-item *ngFor="let property of properties">
+      <ion-label floating>{{ 'formTitles.' + property | translate }}</ion-label>
+      <ion-input *ngIf="property !== 'body'"
+                 [(ngModel)]="item[property]"
+                 type="text"
+                 [formControlName]="property"
+                 required></ion-input>
+      <ion-buttons *ngIf="property === 'password'"
+                   item-end
+                   middle>
+        <button (click)="presentPasswordGenerator(property)"
+                ion-fab
+                mini><ion-icon name="key"></ion-icon></button>
+      </ion-buttons>
+      <ion-textarea *ngIf="property === 'body'"
+                    rows="8"
+                    [(ngModel)]="item[property]"
+                    type="text"
+                    [formControlName]="property"
+                    required></ion-textarea>
 
-        </ion-item>
-    </form>
-    
+    </ion-item>
+  </form>
+
 
 </ion-content>

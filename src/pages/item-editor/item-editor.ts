@@ -4,7 +4,7 @@ import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms'
 import { ValidationService } from '../../services/validation/validation';
 import { LocalizedToastProvider } from '../../providers/localized-toast/localized-toast';
 import { PasswordGeneratorPage } from '../password-generator/password-generator';
-import { Password } from '../../types/password';
+import { Account } from '../../types/account';
 /**
  * Edit and add passwords
  */
@@ -80,7 +80,7 @@ export class ItemEditorPage<T> {
     passwordGenModal.onDidDismiss((genPassword : string) => {
 
       if (genPassword !== undefined && genPassword !== null){
-        this.item["password"] = genPassword
+        this.item["password"] = genPassword;
         
       }
     });

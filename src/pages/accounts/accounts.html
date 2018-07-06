@@ -1,0 +1,166 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button
+            menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-buttons end
+                 [hidden]="(keychain.storageResp !== 3)">
+      <button ion-button
+              icon-start
+              (click)="addItem()">
+            <ion-icon name="add"></ion-icon>
+        </button>
+    </ion-buttons>
+    <ion-title>{{ 'titles.accounts' | translate }}</ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content padding>
+
+  <ion-grid *ngFor="let itemGroupsName of itemGroupsNames(itemGroups)">
+    <h1>
+      {{itemGroupsName}}
+    </h1>
+    <ion-row>
+      <ion-col *ngFor="let item of itemGroups[itemGroupsName]"
+               col-12
+               col-sm-9
+               col-md-6
+               col-lg-4>
+        <ion-card>
+          <ion-item>
+              <ion-icon item-start name="person"></ion-icon>
+
+            <h2>{{item.title}}</h2>
+            <p>{{item.userName}}</p>
+
+          </ion-item>
+
+          <ion-fab right
+                   top>
+            <button ion-fab
+                    mini><ion-icon name="key"></ion-icon></button>
+
+            <ion-fab-list style="background-color: white;  box-shadow: -3px 3px 10px rgba(0, 0, 0, 0.1);"
+                          side="left">
+
+              <button ion-fab
+                      mini
+                      clear
+                      (click)="deleteItem(item)"> 
+                                  <ion-icon name="trash"></ion-icon>
+                            </button>
+              <button ion-fab
+                      clear
+                      (click)="editItem(item)"> 
+                                  <ion-icon name="create"></ion-icon>
+                            </button>
+
+
+            </ion-fab-list>
+          </ion-fab>
+
+          <ion-card-content>
+
+            <ion-list [hidden]="shownItems[item.uuid] === undefined">
+              <ion-item>
+                <ion-buttons>
+                  <button clear
+                          item-end
+                          ion-button
+                          icon-start
+                          small
+                          (click)="copyToClipboard(generateToken(item))">
+                                <circle-progress
+                                [percent]="loadPercentage(timeRemaining)"
+                                title=""
+                                units=''        
+                                [radius]="8"
+                                [animation]="false">
+                              </circle-progress>
+                                {{ generateToken(item) }}
+                                </button>
+                  <button clear
+                          item-end
+                          ion-button
+                          icon-start
+                          small
+                          (click)="copyToClipboard(item.password)">
+                                <ion-icon name="hand"></ion-icon>
+                                    {{ 'options.password' | translate }}
+                                </button>
+
+                </ion-buttons>
+              </ion-item>
+              <ion-list-header>
+                <h3>
+                    {{ 'formTitles.password' | translate }}
+                </h3>
+              </ion-list-header>
+              <p style="padding-left: 15px; padding-right: 15px">
+                  {{item.password}}
+                </p>
+                <br>
+              <ion-list-header>
+                <h3>
+                    {{ 'formTitles.twoFactor' | translate }}
+                </h3>
+                <ion-item style="padding-top: -400px">
+                  <ion-thumbnail item-start>
+                    <img style="width: 200px; height: 200px"
+                         [src]="sanitizer.bypassSecurityTrustUrl(imgs[item.uuid] ? imgs[item.uuid] : '')" />
+                  </ion-thumbnail>
+                </ion-item>
+              </ion-list-header>
+            </ion-list>
+            <ion-buttons>
+              <button clear
+                      item-end
+                      ion-button
+                      icon-start
+                      small>
+                        <ion-icon name="log-in"></ion-icon>
+                        {{ 'options.logIn' | translate }}
+                        </button>
+              <button clear
+                      item-end
+                      ion-button
+                      icon-start
+                      small>
+                        <ion-icon name="construct"></ion-icon>
+                        {{ 'options.changePassword' | translate }}
+                        </button>
+              <button [hidden]="(shownItems[item.uuid] !== undefined)"
+                      clear
+                      item-end
+                      ion-button
+                      icon-start
+                      small
+                      (click)="showCredentials(item)"> 
+                          <ion-icon name="eye"></ion-icon>
+                          {{ 'options.showCred' | translate }}
+                        </button>
+
+              <button [hidden]="(shownItems[item.uuid] === undefined)"
+                      clear
+                      item-end
+                      ion-button
+                      icon-start
+                      small
+                      (click)="hideItem(item.uuid)"> 
+                              <ion-icon name="eye-off"></ion-icon>
+                            {{ 'options.hideCred' | translate }}
+                            </button>
+            </ion-buttons>
+          </ion-card-content>
+
+        </ion-card>
+      </ion-col>
+
+    </ion-row>
+  </ion-grid>
+
+
+</ion-content>

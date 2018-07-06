@@ -5,8 +5,6 @@ import { AppComponent } from './app.component';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { SecureNotesPage } from '../pages/secure-notes/secure-notes';
-import { TwoFactorPage } from '../pages/two-factor/two-factor';
-import { PasswordsPage } from '../pages/passwords/passwords';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
@@ -18,17 +16,17 @@ import { LocalizedToastProvider } from '../providers/localized-toast/localized-t
 import { AuthenticatePage } from '../pages/authenticate/authenticate';
 import { CryptoProvider } from '../providers/crypto/crypto';
 import { NewKeychainPage } from '../pages/new-keychain/new-keychain';
-import {SecureStorage} from '@ionic-native/secure-storage'
+import {SecureStorage} from '@ionic-native/secure-storage';
 import { SettingsPage } from '../pages/settings/settings';
 import { PasswordGeneratorProvider } from '../providers/password-generator/password-generator';
 import { PasswordGeneratorPage } from '../pages/password-generator/password-generator';
+import { AccountsPage } from '../pages/accounts/accounts';
 
 @NgModule({
   declarations: [
     AppComponent,
     SecureNotesPage,
-    TwoFactorPage,
-    PasswordsPage,
+    AccountsPage,
     ItemEditorPage,
     AuthenticatePage,
     NewKeychainPage,
@@ -44,13 +42,12 @@ import { PasswordGeneratorPage } from '../pages/password-generator/password-gene
     
     NgCircleProgressModule.forRoot({
       // set defaults here
-      radius: 100,
       outerStrokeWidth: 2,
       innerStrokeWidth: 2,
       showSubtitle: false,
       outerStrokeColor: "#488aff",
-      innerStrokeColor: "#488aaa",
-      titleFontSize: "15",
+      innerStrokeColor: "rgba(0,0,0,0)",
+      titleFontSize: "10",
       animationDuration: 300,
     }),
     IonicModule.forRoot(AppComponent),
@@ -67,8 +64,7 @@ import { PasswordGeneratorPage } from '../pages/password-generator/password-gene
   entryComponents: [
     AppComponent,
     SecureNotesPage,
-    TwoFactorPage,
-    PasswordsPage,
+    AccountsPage,
     ItemEditorPage,
     AuthenticatePage,
     NewKeychainPage,

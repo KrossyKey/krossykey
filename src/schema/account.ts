@@ -1,16 +1,24 @@
-export let TWO_FACTOR_SCHEMA = {
+export let ACCOUNT_SCHEMA = {
     type: "object",
     properties : {
         
+        title:{
+            type: "string",
+            minLength: 1
+        },
         userName:{
             type: "string",
             minLength: 1
         },
-        key:{
+        password:{
             type: "string",
             minLength: 1
         },
         url:{
+            type: "string",
+            minLength: 1
+        },
+        twoFactor:{
             type: "string",
             minLength: 1
         },
@@ -21,5 +29,5 @@ export let TWO_FACTOR_SCHEMA = {
     },
 
     additionalProperties:false,
-    required: ["userName", "url", "key","uuid"]
+    required: ["title", "userName", "password", "url","uuid"]
 };

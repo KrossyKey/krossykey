@@ -12,10 +12,11 @@
     "ionic:serve": "ionic-app-scripts serve",
     "check": "gts check",
     "gtsclean": "gts clean",
-    "compile": "tsc -p .",
+    "compile": "tsc -p . && npm run genclean",
     "fix": "gts fix",
+    "genclean": "find . -path ./node_modules -prune -o -path ./test-config -prune -o -type f -name '*.js' -exec rm {} \\; && find . -path ./node_modules -prune -o -path ./test-config -prune -o -type f -name '*.js.map' -exec rm {} \\;",
     "start": "git clone https://github.com/electron/electron-quick-start krossykey-electron",
-    "checkstyle": "js-beautify --html",
+    "checkstyle": "(find ./src -path ./node_modules -prune -o -type f -name '*.html' -exec js-beautify -r --html -A force-aligned --editorconfig src/**/*.html {} \\;) && npm run compile && gts fix ",
     "posttest": "npm run check",
     "doc": "./node_modules/.bin/compodoc -p tsconfig.json"
   },

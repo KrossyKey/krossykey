@@ -9,9 +9,11 @@
 
   <ion-navbar>
 
-      <ion-buttons end>
+    <ion-buttons end>
 
-        <button ion-button (click)="passKeychain()" [disabled]="passphrase.length === 0">
+      <button ion-button
+              (click)="passKeychain()"
+              [disabled]="passphrase.length === 0">
             <span ion-text>{{ 'options.unlock' | translate }}</span>
           </button>
     </ion-buttons>
@@ -24,10 +26,11 @@
 <ion-content padding>
   <ion-list>
 
-      <ion-item>
-          <ion-label floating>Passphrase</ion-label>
-        <ion-input type="password" [(ngModel)] = "passphrase"></ion-input>
-      </ion-item>
+    <ion-item>
+      <ion-label floating>Passphrase</ion-label>
+      <ion-input type="password"
+                 [(ngModel)]="passphrase"></ion-input>
+    </ion-item>
 
   </ion-list>
 </ion-content>

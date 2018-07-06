@@ -158,7 +158,7 @@ export abstract class SecureItemsPage<T extends Identified> {
           this.keychain.setRawKeychain(encrypted).then(() => {
             this.authenticate(KeychainAction.READ);
             this.isAuthenticating = false;
-          })
+          });
         }
       });
       importModal.present();

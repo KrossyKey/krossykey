@@ -1,84 +1,120 @@
-
 <ion-header>
-    <ion-navbar>
-      <button ion-button menuToggle>
-        <ion-icon name="menu"></ion-icon>
-      </button>
-      <ion-buttons end>
-          <button [hidden] = "(keychain.storageResp !== 3)" ion-button icon-start (click) = "addItem()">
-              <ion-icon name="add"></ion-icon>
+  <ion-navbar>
+    <button ion-button
+            menuToggle>
+            <ion-icon name="menu"></ion-icon>
           </button>
-      </ion-buttons>      
-      <ion-title>{{ 'titles.secureNotes' | translate }}</ion-title>
-    </ion-navbar>
-  </ion-header>
-  
-  
-  <ion-content padding>
-  
-    <ion-list *ngFor="let itemGroupsName of itemGroupsNames(itemGroups)">
-        <ion-list-header>
-            <h1>
-                {{itemGroupsName}}
-            </h1>
-          </ion-list-header>
-  
-      <ion-item-group *ngFor="let item of itemGroups[itemGroupsName]">
-  
-          <ion-item>
-            <ion-buttons item-end>
-              
-                    <ion-fab style = "padding-top: 5px;" top right edge>
-                            <button ion-fab mini><ion-icon name="key"></ion-icon></button>
-                            
-                            <ion-fab-list style = "padding-top: 5px; background-color: white;  box-shadow: -3px 3px 3px rgba(0, 0, 0, 0.1);" side="left">
-                                
-                                <button ion-fab mini clear 
-                                    (click) = "deleteItem(item)"> 
+    <ion-buttons end
+                 [hidden]="(keychain.storageResp !== 3)">
+      <button ion-button
+              icon-start
+              (click)="addItem()">
+                  <ion-icon name="add"></ion-icon>
+              </button>
+    </ion-buttons>
+    <ion-title>{{ 'titles.secureNotes' | translate }}</ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content padding>
+
+  <ion-grid *ngFor="let itemGroupsName of itemGroupsNames(itemGroups)">
+    <h1>
+      {{itemGroupsName}}
+    </h1>
+    <ion-row>
+      <ion-col *ngFor="let item of itemGroups[itemGroupsName]"
+               col-12
+               col-sm-9
+               col-md-6
+               col-lg-4>
+        <ion-card>
+
+          <ion-card-header>
+            {{item.title}}
+          </ion-card-header>
+
+          <ion-fab right
+                   top>
+            <button ion-fab
+                    mini><ion-icon name="key"></ion-icon></button>
+
+            <ion-fab-list style="background-color: white;  box-shadow: -3px 3px 10px rgba(0, 0, 0, 0.1);"
+                          side="left">
+
+              <button ion-fab
+                      mini
+                      clear
+                      (click)="deleteItem(item)"> 
                                         <ion-icon name="trash"></ion-icon>
                                   </button>
-                                  <button ion-fab clear 
-                                    (click) = "editItem(item)"> 
+              <button ion-fab
+                      clear
+                      (click)="editItem(item)"> 
                                         <ion-icon name="create"></ion-icon>
                                   </button>
-                      
-                                  <button [hidden]="(shownItems[item.uuid] !== undefined)" 
-                                          ion-fab clear 
-                                          (click) = "showItem(item.uuid)"> 
-                                        <ion-icon name="eye"></ion-icon>
-                                  </button>
-                      
-                                  <button [hidden]="(shownItems[item.uuid] === undefined)" 
-                                          ion-fab clear 
-                                          (click) = "hideItem(item.uuid)"> 
-                                        <ion-icon name="eye-off"></ion-icon>
-                                  </button>
-                            </ion-fab-list>
-                        </ion-fab>
-            </ion-buttons>
 
-            <div>
 
-              <h2>{{item.title}}</h2>
-              <button ion-button icon-start
-                      (click) = "copyToClipboard(item.body)">
-                  <ion-icon name="paper"></ion-icon>
-                  {{ 'options.secureNote' | translate }}
-              </button>
-              <div style = "max-width: 50vw" [hidden] = "shownItems[item.uuid] === undefined">
-                  <p>
-                      {{item.body}}
-                  </p>
-              </div>
+            </ion-fab-list>
+          </ion-fab>
 
-          </div>
-        </ion-item>
-  
-      </ion-item-group>
-    </ion-list>
-  
-  
-  
-  
-  </ion-content>
-  
+          <ion-card-content>
+
+            <ion-list [hidden]="shownItems[item.uuid] === undefined">
+
+              <ion-list-header>
+                <h3>
+                    {{ 'formTitles.body' | translate }}
+                </h3>
+              </ion-list-header>
+              <button clear
+                      item-end
+                      ion-button
+                      icon-start
+                      small
+                      (click)="copyToClipboard(item.body)">
+                          <ion-icon name="paper"></ion-icon>
+                              {{ 'options.secureNote' | translate }}
+                          </button>
+              <p style="padding-left: 15px; padding-right: 15px">
+                {{item.body}}
+              </p>
+              <br>
+            </ion-list>
+
+          </ion-card-content>
+          <ion-buttons>
+
+            <button [hidden]="(shownItems[item.uuid] !== undefined)"
+                    clear
+                    item-end
+                    ion-button
+                    icon-start
+                    small
+                    (click)="showItem(item.uuid)"> 
+                                  <ion-icon name="eye"></ion-icon>
+                                  {{ 'options.showCred' | translate }}
+                                </button>
+
+            <button [hidden]="(shownItems[item.uuid] === undefined)"
+                    clear
+                    item-end
+                    ion-button
+                    icon-start
+                    small
+                    (click)="hideItem(item.uuid)"> 
+                                      <ion-icon name="eye-off"></ion-icon>
+                                      {{ 'options.hideCred' | translate }}
+                                    </button>
+          </ion-buttons>
+
+          <br>
+        </ion-card>
+      </ion-col>
+
+    </ion-row>
+  </ion-grid>
+
+
+</ion-content>

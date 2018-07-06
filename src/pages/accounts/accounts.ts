@@ -1,14 +1,14 @@
 import { Component } from '@angular/core';
 import { IonicPage, ModalController, Platform } from 'ionic-angular';
+import { Account, ACCOUNT_DEFAULT } from '../../types/account';
 import { SecureItemsPage } from '../secure-items/secure-items';
-import { TwoFactor, TWO_FACTOR_DEFAULT } from '../../types/two-factor';
+import { ACCOUNT_SCHEMA } from '../../schema/account';
+import { KeychainProvider } from '../../providers/keychain/keychain';
+import { StorageID } from '../../app/app.component';
 import notp from 'notp';
 import base32 from 'thirty-two';
 import qrcode from 'qrcode';
 import { DomSanitizer } from '@angular/platform-browser';
-import { KeychainProvider } from '../../providers/keychain/keychain';
-import { StorageID } from '../../app/app.component';
-import { TWO_FACTOR_SCHEMA } from '../../schema/two-factor';
 
 /**
  * Page for displaying passwords
@@ -16,17 +16,15 @@ import { TWO_FACTOR_SCHEMA } from '../../schema/two-factor';
 
 @IonicPage()
 @Component({
-  selector: 'page-two-factor',
-  templateUrl: 'two-factor.html',
+  selector: 'page-accounts',
+  templateUrl: 'accounts.html',
 })
-export class TwoFactorPage extends SecureItemsPage<TwoFactor>{
-
-  readonly step = 30;
+export class AccountsPage extends SecureItemsPage<Account>{
 
   /**
-   * Two factor defaults
+   * Two Factor step
    */
-  readonly objectDefaults = TWO_FACTOR_DEFAULT;
+  readonly step = 30;
 
   /**
    * Barcode Images
@@ -37,28 +35,33 @@ export class TwoFactorPage extends SecureItemsPage<TwoFactor>{
    * Time remaining
    */
   private timeRemaining = 0;
-  
+
+
+  /**
+   * Account defaults
+   */
+  readonly objectDefaults = ACCOUNT_DEFAULT;
 
   /**
    * Intializes __PasswordsPage__
-   * @param sanitizer DOM Sanitizer
    * @param modalCtrl Modal Controller
    * @param keychain Keychain Provider
    */
-  constructor(public sanitizer : DomSanitizer,
-    modalCtrl : ModalController, keychain : KeychainProvider,platform : Platform) {
-      super(modalCtrl,keychain, TWO_FACTOR_SCHEMA, StorageID.twoFactors,platform);
+
+  
+  constructor(
+    modalCtrl : ModalController, keychain : KeychainProvider, platform : Platform, private sanitizer : DomSanitizer) {
+      super(modalCtrl,keychain, ACCOUNT_SCHEMA, StorageID.accounts, platform);
       this.calcTimeRemaining();
   }
-
 
     /**
      * Generates Token from secret key
      * @param twoFactorModel Model of Two Factor Identified
      */
-    generateToken(twoFactorModel : TwoFactor):number{
+    generateToken(account : Account):number{
       // var key = 'gknj ocwm qh7o sace 6vpy ytgt mlwa vuxt'
-      const unformatted = twoFactorModel.key.replace(/\W+/g, '').toUpperCase();
+      const unformatted = account.twoFactor.replace(/\W+/g, '').toUpperCase();
       const bin = base32.decode(unformatted);
       return notp.totp.gen(bin);
     }
@@ -71,10 +74,10 @@ export class TwoFactorPage extends SecureItemsPage<TwoFactor>{
      * Generates QR Code
      * @param twoFactor Two Factor Identified
      */
-    generateQrCode(twoFactor : TwoFactor){
-      qrcode.toDataURL(this.barCodeUrl(twoFactor), (err, imageUrl) => {
+    generateQrCode(account : Account){
+      qrcode.toDataURL(this.barCodeUrl(account), (err, imageUrl) => {
         if (imageUrl) {
-          this.imgs[twoFactor.uuid] = imageUrl;
+          this.imgs[account.uuid] = imageUrl;
         }
       });
     }
@@ -93,9 +96,9 @@ export class TwoFactorPage extends SecureItemsPage<TwoFactor>{
      * Shows barcode
      * @param twoFactor Two Factor Identified
      */
-    showBarCode(twoFactor : TwoFactor){
-      this.generateQrCode(twoFactor);
-      this.showItem(twoFactor.uuid);
+    showCredentials(account : Account){
+      this.generateQrCode(account);
+      this.showItem(account.uuid);
     }
 
     /**
@@ -103,13 +106,15 @@ export class TwoFactorPage extends SecureItemsPage<TwoFactor>{
      * @param twoFactorModel Two Factor Identified Model
      * @returns Bar code url
      */
-    barCodeUrl (twoFactorModel : TwoFactor):string {
+    barCodeUrl (account : Account):string {
       return 'otpauth://totp/'
-        + encodeURI(twoFactorModel.userName || '')
-        + '?secret=' + twoFactorModel.key.replace(/[\s\.\_\-]+/g, '').toUpperCase()
+        + encodeURI(account.userName || '')
+        + '?secret=' + account.twoFactor.replace(/[\s\.\_\-]+/g, '').toUpperCase()
         + '&algorithm=' + ('SHA1')
         + '&digits=' + (6)
         + '&period=' + (this.step)
         ;  
     }
+
+
 }

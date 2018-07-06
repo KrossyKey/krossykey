@@ -1,9 +1,7 @@
 {
     "titles" : {
-        "passwords" : "Passwords",
-        "twoFactor" : "Two Factor",
+        "accounts" : "Accounts",
         "secureNotes": "Secure Notes",
-        "editPassword": "Edit Password",
         "settings": "Settings"
 
     },
@@ -25,9 +23,12 @@
         "passwordNew" : "New Password",
         "secureNote": "Secure Note",
         "show": "Show",
+        "showCred": "Show Credentials",
+        "hideCred": "Hide Credentials",
         "hide": "Hide",
         "edit": "Edit",
         "add": "Add",
+        "logIn": "Log In",
         "save": "Save",
         "dismiss": "Dismiss",
         "close": "Close",
@@ -44,6 +45,7 @@
 
     "formTitles" : {
         "password": "Password",
+        "twoFactor" : "Two Factor",
         "secureNote": "Secure Note",
         "userName":  "Username",
         "title": "Title",

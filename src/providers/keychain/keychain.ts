@@ -150,11 +150,11 @@ export class KeychainProvider {
    * @param passphrase Passphrase to unlock with
    */
   unlockKeychain(passphrase : string):Promise<StorageResponse>{
-    
       return this.getRawKeychain().then((encrypted : string) => {
         if (encrypted){
           const decrypted = this.crypto.decryptStringFromPhrase(passphrase,encrypted);
           if (decrypted){
+            console.log(encrypted);
             return decrypted.then((keychain : Keychain) => {
               if (keychain){
                 if (this.keychainValidator.validateFor(keychain)){
@@ -178,13 +178,11 @@ export class KeychainProvider {
           this._storageResp = StorageResponse.KEYCHAIN_NOT_SET;
           this._keychain = KEYCHAIN_DEFAULT;
           return this.crypto.encryptObjectFromPhrase(passphrase, this._keychain).then((encrypted : string) =>{
-            this.setRawKeychain(encrypted)
+            this.setRawKeychain(encrypted);
             return this._storageResp;
           });       
         }
       });
-
-
   }
 
 
@@ -230,7 +228,7 @@ export class KeychainProvider {
       if (encrypted){
         return false;
       }else{
-        this._storageResp = StorageResponse.KEYCHAIN_NOT_SET
+        this._storageResp = StorageResponse.KEYCHAIN_NOT_SET;
         return true;
       }
     });
@@ -261,13 +259,13 @@ export class KeychainProvider {
         //--! var savePath = dialog.showSaveDialog({defaultPath : "~/keychain.kk"});
         //--! path = savePath
         //--! fs.writeFile(savePath, rawKeychain)
-        return this.setKeychainPath(path)
+        return this.setKeychainPath(path);
       }
       
       });
 
     }else{
-      this.storage.set('keychain',rawKeychain);
+      return this.storage.set('keychain',rawKeychain);
     }
 
   }
