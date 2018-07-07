@@ -30,8 +30,7 @@
       <ion-input *ngIf="property !== 'body'"
                  [(ngModel)]="item[property]"
                  type="text"
-                 [formControlName]="property"
-                 required></ion-input>
+                 [formControlName]="property"></ion-input>
       <ion-buttons *ngIf="property === 'password'"
                    item-end
                    middle>

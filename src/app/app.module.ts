@@ -80,7 +80,7 @@ import { AccountsPage } from '../pages/accounts/accounts';
     LocalizedToastProvider,
     CryptoProvider,
     PasswordGeneratorProvider
-  ]
+    ]
 })
 export class AppModule {}
 

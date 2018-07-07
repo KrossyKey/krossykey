@@ -21,6 +21,7 @@ export interface Account extends Identified{
      */
     readonly twoFactor:string;
 
+
 }
 
 /**
@@ -33,5 +34,4 @@ export let ACCOUNT_DEFAULT:Account = {
     url:"",
     twoFactor:"",
     uuid:""
-
 };

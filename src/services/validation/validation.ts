@@ -18,7 +18,6 @@ export class ValidationService<T> {
 
   validateFor(data : T):boolean{
     this.validate(data);
-    console.log(this.validate.errors);
     return this.validate(data) as boolean;
   }
 

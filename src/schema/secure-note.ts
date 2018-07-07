@@ -16,7 +16,8 @@ export let SECURE_NOTE_SCHEMA = {
         },
         uuid:{
             type: "string",
-            minLength: 1
+            minLength: 1,
+            hidden: true
         }
     },
 

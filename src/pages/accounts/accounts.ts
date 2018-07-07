@@ -60,10 +60,15 @@ export class AccountsPage extends SecureItemsPage<Account>{
      * @param twoFactorModel Model of Two Factor Identified
      */
     generateToken(account : Account):number{
-      // var key = 'gknj ocwm qh7o sace 6vpy ytgt mlwa vuxt'
+      if (account.twoFactor){
       const unformatted = account.twoFactor.replace(/\W+/g, '').toUpperCase();
       const bin = base32.decode(unformatted);
       return notp.totp.gen(bin);
+
+      }else{
+        return NaN;
+      }
+
     }
 
     loadPercentage(timeLeft : number):number{
@@ -107,13 +112,15 @@ export class AccountsPage extends SecureItemsPage<Account>{
      * @returns Bar code url
      */
     barCodeUrl (account : Account):string {
-      return 'otpauth://totp/'
-        + encodeURI(account.userName || '')
-        + '?secret=' + account.twoFactor.replace(/[\s\.\_\-]+/g, '').toUpperCase()
-        + '&algorithm=' + ('SHA1')
-        + '&digits=' + (6)
-        + '&period=' + (this.step)
-        ;  
+      if (account.twoFactor){
+        return 'otpauth://totp/'
+          + encodeURI(account.userName || '')
+          + '?secret=' + account.twoFactor.replace(/[\s\.\_\-]+/g, '').toUpperCase()
+          + '&algorithm=' + ('SHA1')
+          + '&digits=' + (6)
+          + '&period=' + (this.step)
+          ;  
+      }
     }
 
 

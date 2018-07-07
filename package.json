@@ -1,12 +1,14 @@
 {
   "name": "krossykey",
   "version": "0.0.1",
-  "author": "Ionic Framework",
-  "homepage": "http://ionicframework.com/",
+  "author": "Afshawn Lotfi",
+  "homepage": "http://krossykey.com/",
   "private": true,
   "scripts": {
     "clean": "ionic-app-scripts clean",
-    "build": "ionic-app-scripts build && cp -a www/. krossykey-electron/",
+    "build-electron": "ionic-app-scripts build && node tools/electron-build && cp -a www/. ../krossykey-electron/",
+    "build-mobile": "ionic-app-scripts build && node tools/mobile-build",
+    "build-browser": "ionic-app-scripts build",
     "lint": "ionic-app-scripts lint",
     "ionic:build": "ionic-app-scripts build",
     "ionic:serve": "ionic-app-scripts serve",
@@ -15,7 +17,6 @@
     "compile": "tsc -p . && npm run genclean",
     "fix": "gts fix",
     "genclean": "find . -path ./node_modules -prune -o -path ./test-config -prune -o -type f -name '*.js' -exec rm {} \\; && find . -path ./node_modules -prune -o -path ./test-config -prune -o -type f -name '*.js.map' -exec rm {} \\;",
-    "start": "git clone https://github.com/electron/electron-quick-start krossykey-electron",
     "checkstyle": "(find ./src -path ./node_modules -prune -o -type f -name '*.html' -exec js-beautify -r --html -A force-aligned --editorconfig src/**/*.html {} \\;) && npm run compile && gts fix ",
     "posttest": "npm run check",
     "doc": "./node_modules/.bin/compodoc -p tsconfig.json"
@@ -64,7 +65,9 @@
     "sprintf-js": "^1.1.1",
     "sw-toolbox": "3.6.0",
     "thirty-two": "^1.0.2",
-    "zone.js": "0.8.26"
+    "electron-rebuild": "^1.8.1",
+    "keytar": "^4.2.1",
+    "puppeteer": "^1.5.0"
   },
   "devDependencies": {
     "@ionic/app-scripts": "3.1.10",
@@ -85,7 +88,9 @@
     },
     "platforms": [
       "ios",
-      "browser"
+      "browser",
+      "open source",
+      "keychain"
     ]
   }
 }

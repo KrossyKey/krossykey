@@ -70,8 +70,8 @@ export class KeychainProvider {
 
   storePassphraseSecurely(passphrase : string){
     if (AppComponent.mode === Mode.desktop){
-      //--! const keytar = require('keytar')
-      //--! keytar.setPassword('krossykey','krossykeytoken',passphrase)
+      //--[electron_build] const keytar = require('keytar')
+      //--[electron_build] keytar.setPassword('krossykey','krossykeytoken',passphrase)
     }else if (AppComponent.mode === Mode.mobile){
       return this.secureDatabase.then((secureStorage: SecureStorageObject) => {
       
@@ -93,8 +93,8 @@ export class KeychainProvider {
   removePassphraseSecurely():Promise<boolean>{
 
     if (AppComponent.mode === Mode.desktop){
-      //--! const keytar = require('keytar')
-      //--! return keytar.deletePassword('krossykey','krossykeytoken')
+      //--[electron_build] const keytar = require('keytar')
+      //--[electron_build] return keytar.deletePassword('krossykey','krossykeytoken')
     }else if (AppComponent.mode === Mode.mobile){
       return this.secureDatabase.then((secureStorage: SecureStorageObject) => {
 
@@ -117,8 +117,8 @@ export class KeychainProvider {
   fetchPassphraseSecurely():Promise<string>{
 
     if (AppComponent.mode === Mode.desktop){
-      //--! const keytar = require('keytar')
-      //--! return keytar.getPassword('krossykey','krossykeytoken')
+      //--[electron_build] const keytar = require('keytar')
+      //--[electron_build] return keytar.getPassword('krossykey','krossykeytoken')
     }else if (AppComponent.mode === Mode.mobile){
       return this.secureDatabase.then((secureStorage: SecureStorageObject) => {
           return secureStorage.get('krossykey')
@@ -251,14 +251,14 @@ export class KeychainProvider {
     if (AppComponent.mode === Mode.desktop){
 
       return this.getKeychainPath().then((path : string) =>{
-      //--! const fs = require('fs');
+      //--[electron_build] const fs = require('fs');
       if (path){
-        //--! fs.writeFile(path, rawKeychain);
+        //--[electron_build] fs.writeFile(path, rawKeychain);
       }else{
-        //--! const {dialog} = require("electron").remote;
-        //--! var savePath = dialog.showSaveDialog({defaultPath : "~/keychain.kk"});
-        //--! path = savePath
-        //--! fs.writeFile(savePath, rawKeychain)
+        //--[electron_build] const {dialog} = require("electron").remote;
+        //--[electron_build] var savePath = dialog.showSaveDialog({defaultPath : "~/keychain.kk"});
+        //--[electron_build] path = savePath
+        //--[electron_build] fs.writeFile(savePath, rawKeychain)
         return this.setKeychainPath(path);
       }
       
@@ -274,9 +274,9 @@ export class KeychainProvider {
     if (AppComponent.mode === Mode.desktop){
       return this.getKeychainPath().then((path : string) =>{
           if (path){
-            //--! const fs = require('fs');
+            //--[electron_build] const fs = require('fs');
             try{
-            //--! return fs.readFileSync(path)
+            //--[electron_build] return fs.readFileSync(path)
             }catch{
               this.deleteKeychainPath();
               return undefined;

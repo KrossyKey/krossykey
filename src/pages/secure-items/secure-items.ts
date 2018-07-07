@@ -103,7 +103,7 @@ export abstract class SecureItemsPage<T extends Identified> {
                               break;
                             case KeychainAction.DELETE:
                               this.rawItems = this.rawItems.filter(
-                                (item : T) =>  item.uuid !== item.uuid);
+                                (filtered : T) =>  filtered.uuid !== item.uuid);
                               this.keychain.setKeychainProperty(passphrase,this.storageID,this.rawItems);
                               break;
                             default:
@@ -243,8 +243,7 @@ export abstract class SecureItemsPage<T extends Identified> {
      */
     private deleteItem(item : T){
       this.authenticate(KeychainAction.DELETE, item);
-      // Gooz
-      // this.itemGroups = this.sortItems(this.rawItems)
+
     }
   
     /**

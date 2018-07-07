@@ -6,7 +6,6 @@ import { SecureNotesPage } from '../pages/secure-notes/secure-notes';
 import { TranslateService } from '@ngx-translate/core';
 import { KeychainProvider } from '../providers/keychain/keychain';
 import { SettingsPage } from '../pages/settings/settings';
-import { PasswordGeneratorProvider } from '../providers/password-generator/password-generator';
 import { AccountsPage } from '../pages/accounts/accounts';
 
 /**
@@ -39,6 +38,7 @@ export class AppComponent {
 
   /**
    * States what mode keychain is set for
+   * DO NOT CHANGE. Instead use correct build command found in package.json
    */
   static readonly mode:Mode = Mode.browser;
 
@@ -98,6 +98,7 @@ export class AppComponent {
       this.splashScreen.hide();
     });
   }
+
 
   /**
    * Opens Pages
