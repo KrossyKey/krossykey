@@ -1,0 +1,66 @@
+{
+    "titles" : {
+        "accounts" : "Accounts",
+        "secureNotes": "Secure Notes",
+        "settings": "Settings"
+
+    },
+
+
+    "passwordOptions": {
+        "special" : "Special",
+        "numeric" : "Numeric",
+        "upper" : "Upper Case",
+        "lower" : "Lower Case"
+
+    },
+
+    "options" : {
+        "options" : "Options",
+        "length" : "Length",
+        "password" : "Password",
+        "passwordOld" : "Old Password",
+        "passwordNew" : "New Password",
+        "secureNote": "Secure Note",
+        "show": "Show",
+        "showCred": "Show Credentials",
+        "hideCred": "Hide Credentials",
+        "hide": "Hide",
+        "edit": "Edit",
+        "add": "Add",
+        "logIn": "Log In",
+        "save": "Save",
+        "dismiss": "Dismiss",
+        "close": "Close",
+        "delete": "Delete",
+        "unlock": "Unlock",
+        "ok": "Okay",
+        "done": "Done",
+        "set": "Set",
+        "cancel": "Cancel",
+        "confirm": "Confirm",
+        "changePassword": "Change Password",
+        "exportKeychain": "Export Keychain"
+    },
+
+    "formTitles" : {
+        "password": "Password",
+        "twoFactor" : "Two Factor",
+        "secureNote": "Secure Note",
+        "userName":  "Username",
+        "title": "Title",
+        "url": "URL or Group Name",
+        "body": "Body",
+        "key": "Key",
+        "groupName": "Group Name"
+    },
+
+    "validation":{
+        "invalidForm": "Invalid Form",
+        "invalidKeychain": "Invalid Keychain",
+        "invalidPassphrase": "Invalid Passphrase",
+        "successPassChange": "Successfully Changed Password",
+        "failedPassChange": "Failed To Change Password"
+
+    }
+}
