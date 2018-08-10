@@ -1,0 +1,37 @@
+{
+  "name": "KrossyKey",
+  "version": "1.0.0",
+  "description": "A minimal corss platform keychain",
+  "main": "main.js",
+  "scripts": {
+    "postinstall": "./node_modules/.bin/electron-rebuild",
+    "start": "electron .",
+    "package-mac": "electron-packager . --overwrite --platform=darwin --arch=x64 --icon=assets/icon/icon_mac.icns --prune=true --out=release-builds",
+    "package-win32": "electron-packager . KrossyKey --overwrite --asar=true --platform=win32 --arch=ia32 --icon=assets/icon/icon_windows.ico --prune=true --out=release-builds --version-string.CompanyName=CE --version-string.FileDescription=CE --version-string.ProductName=\"Cross Platform Keychain\"",   
+    "package-win64": "electron-packager . KrossyKey --overwrite --asar=true --platform=win32 --arch=x64 --icon=assets/icon/icon_windows.ico --prune=true --out=release-builds --version-string.CompanyName=CE --version-string.FileDescription=CE --version-string.ProductName=\"Cross Platform Keychain\"",    
+ 
+    "package-linux": "electron-packager . KrossyKey --overwrite --asar=true --platform=linux --arch=x64 --icon=assets/icon/icon_linux.png --prune=true --out=release-builds"
+
+
+
+  },
+  "repository": "https://github.com/electron/electron-quick-start",
+  "keywords": [
+    "Electron",
+    "quick",
+    "start",
+    "tutorial",
+    "demo"
+  ],
+  "author": "GitHub",
+  "license": "CC0-1.0",
+  "devDependencies": {
+    "electron": "^2.0.0",
+    "electron-packager": "^12.1.0",
+    "electron-rebuild": "^1.8.2"
+  },
+
+  "dependencies": {
+    "keytar": "^4.2.1"
+  }
+}
