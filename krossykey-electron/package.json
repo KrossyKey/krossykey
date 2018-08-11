@@ -1,19 +1,16 @@
 {
-  "name": "KrossyKey",
+  "name": "krossykey-electron",
   "version": "1.0.0",
-  "description": "A minimal corss platform keychain",
+  "description": "A minimal cross platform keychain",
   "main": "main.js",
   "scripts": {
     "postinstall": "./node_modules/.bin/electron-rebuild",
     "start": "electron .",
-    "package-mac": "electron-packager . --overwrite --platform=darwin --arch=x64 --icon=assets/icon/icon_mac.icns --prune=true --out=release-builds",
-    "package-win32": "electron-packager . KrossyKey --overwrite --asar=true --platform=win32 --arch=ia32 --icon=assets/icon/icon_windows.ico --prune=true --out=release-builds --version-string.CompanyName=CE --version-string.FileDescription=CE --version-string.ProductName=\"Cross Platform Keychain\"",   
-    "package-win64": "electron-packager . KrossyKey --overwrite --asar=true --platform=win32 --arch=x64 --icon=assets/icon/icon_windows.ico --prune=true --out=release-builds --version-string.CompanyName=CE --version-string.FileDescription=CE --version-string.ProductName=\"Cross Platform Keychain\"",    
-    "package-linux64": "electron-packager . KrossyKey --overwrite --asar=true --platform=linux --arch=x64 --icon=assets/icon/icon_linux.png --prune=true --out=release-builds",
-    "package-linux32": "electron-packager . KrossyKey --overwrite --asar=true --platform=linux --arch=ia32 --icon=assets/icon/icon_linux.png --prune=true --out=release-builds"
-
-
-
+    "package-mac": "electron-packager . KrossyKey --overwrite --platform=darwin --arch=x64 --icon=assets/icon/icon_mac.icns --prune=true --out=release-builds && hdiutil create -volname KrossyKey -srcfolder release-builds/KrossyKey-darwin-x64/ -ov -format UDZO release-builds/KrossyKey-darwin-x64.dmg",
+    "package-win32": "electron-packager . KrossyKey --overwrite --asar=true --platform=win32 --arch=ia32 --icon=assets/icon/icon_windows.ico --prune=true --out=release-builds --version-string.CompanyName=CE --version-string.FileDescription=CE --version-string.ProductName=\"Cross Platform Keychain\" && zip -r -X KrossyKey-win32-ia32.zip release-builds/KrossyKey-win32-ia32/ && mv KrossyKey-win32-ia32.zip release-builds/",   
+    "package-win64": "electron-packager . KrossyKey --overwrite --asar=true --platform=win32 --arch=x64 --icon=assets/icon/icon_windows.ico --prune=true --out=release-builds --version-string.CompanyName=CE --version-string.FileDescription=CE --version-string.ProductName=\"Cross Platform Keychain\" &&  zip -r -X KrossyKey-win32-x64.zip release-builds/KrossyKey-win32-x64/ && mv KrossyKey-win32-x64.zip release-builds/",    
+    "package-linux64": "electron-packager . KrossyKey --overwrite --asar=true --platform=linux --arch=x64 --icon=assets/icon/icon_linux.png --prune=true --out=release-builds && tar -cvzf release-builds/KrossyKey-linux-x64.tar.gz release-builds/KrossyKey-linux-x64",
+    "package-linux32": "electron-packager . KrossyKey --overwrite --asar=true --platform=linux --arch=ia32 --icon=assets/icon/icon_linux.png --prune=true --out=release-builds  && tar -cvzf release-builds/KrossyKey-linux-ia32.tar.gz release-builds/KrossyKey-linux-ia32" 
   },
   "repository": "https://github.com/electron/electron-quick-start",
   "keywords": [
