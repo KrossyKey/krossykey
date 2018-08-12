@@ -33,8 +33,8 @@ Note this demo is not recommended to use as the keychain primary client. It is s
 
 | Desktop | Mobile  | Misc  |
 |:-------------:|:-------:|:-------:|
-|![Accounts](https://github.com/KrossyKey/krossykey/blob/master/images/desktopPasswords.png)|![Accounts](https://github.com/KrossyKey/krossykey/blob/master/images/iosPasswords.png)|![Accounts](https://github.com/KrossyKey/krossykey/blob/master/images/accountCard.png)|
-|![Secure Notes](https://github.com/KrossyKey/krossykey/blob/master/images/desktopNotes.png)|![Secure Notes](https://github.com/KrossyKey/krossykey/blob/master/images/iosNotes.png)|![Password Gen](https://github.com/KrossyKey/krossykey/blob/master/images/passwordGen.png)|
+|![Accounts](https://i.imgur.com/Frm8i6y.png)|![Accounts](https://i.imgur.com/Nbe6Mlm.png)|![Accounts](https://i.imgur.com/wMEuBrm.png)|
+|![Secure Notes](https://i.imgur.com/bjHU27F.png)|![Secure Notes](https://i.imgur.com/DeRq0bt.png)|![Password Gen](https://i.imgur.com/gTJP8hf.png)|
 
 
 
