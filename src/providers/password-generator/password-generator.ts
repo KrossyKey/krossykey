@@ -45,7 +45,10 @@ export class PasswordGeneratorProvider {
 
 
     while( password.length<length ) {
-      password += passwordSelectionArray[Math.ceil((passwordSelectionArray.length - 1) * Math.random())];
+      const arr:Uint32Array = new Uint32Array(1);
+      crypto.getRandomValues(arr);
+      const randonVal:number = arr[0] * Math.pow(2,-32);
+      password += passwordSelectionArray[Math.ceil((passwordSelectionArray.length - 1) * randonVal)];
     }
     
     return password;

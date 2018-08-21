@@ -138,8 +138,8 @@ export class CryptoProvider {
       {
           "name": "PBKDF2",
           salt,
-          iterations: 2000,
-          hash: {name: "SHA-256"}, //can be "SHA-1", "SHA-256", "SHA-384", or "SHA-512"
+          iterations: 45000, //Based on https://support.1password.com/pbkdf2/
+          hash: {name: "SHA-512"}, //can be "SHA-1", "SHA-256", "SHA-384", or "SHA-512"
       },
       importedKey, //your key from generateKey or importKey
       { //the key type you want to create based on the derived bits

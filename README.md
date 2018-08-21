@@ -94,7 +94,7 @@ When refering to electron code use the token
 - Zero First Party Anylatics and Tracking
 - No Account Needed
 - Completely Offline
-- Encrypted with SHA256 AES-GCM Encryption
+- Encrypted with SHA512 AES-GCM Encryption
 
 
 
