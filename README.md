@@ -65,6 +65,16 @@ make buildMobile platform={{ios, android, etc.}}
 ```
 
 
+# Running Releases
+
+## Linux
+
+```
+//On Debian/Ubuntu Linux you need
+sudo apt install gnome-keyring
+```
+
+
 # Documentation
 
 Official documentation is at [https://krossykey.com/documentation](https://krossykey.com/documentation)
