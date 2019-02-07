@@ -195,11 +195,21 @@ export class KeychainProvider {
 
 
 
-  getKeychain(storageID : StorageID, passphrase : string):Promise<Identified[]>{
+  getKeychain(storageID : StorageID, passphrase : string):Promise<Identified[] | null>{
     return this.getRawKeychain().then((encrypted : string) => {
     
       return this.crypto.decryptStringFromPhrase(passphrase, encrypted).then((decrypted : Keychain) =>{
-        return decrypted[storageID];
+        if (decrypted){
+          if (this.keychainValidator.validateFor(decrypted)){
+            return decrypted[storageID];
+          }else{
+            this.invalidKeychain();
+            return null;
+          }
+        }else{
+          this.invalidKeychain();
+          return null;
+        }
 
       });  
     });

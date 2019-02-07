@@ -87,8 +87,8 @@ export abstract class SecureItemsPage<T extends Identified> {
                 const keychainUnlocked = this.keychain.unlockKeychain(passphrase);
                   return keychainUnlocked.then((isValid : StorageResponse) => {
                     if (isValid === StorageResponse.SUCCESS){
-                      this.keychain.getKeychain(this.storageID, passphrase).then((rawItems : T[]) => {
-                        if (item){
+                      this.keychain.getKeychain(this.storageID, passphrase).then((rawItems : T[] | null) => {
+                        if (item && rawItems){
                           switch(keychainAction) {
                             case KeychainAction.ADD:
                               this.rawItems = rawItems;

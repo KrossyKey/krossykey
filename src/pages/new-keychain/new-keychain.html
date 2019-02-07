@@ -58,5 +58,35 @@
              type="file" />
     </ion-item>
 
+    <br>
+
+    <ion-label>
+      <h5 style="text-align: center">OR</h5>
+    </ion-label>
+
+    <br>
+
+    <ion-label>
+      <h3 style="text-align: center">Paste Keychain</h3>
+    </ion-label>
+
+
+    <ion-item>
+      <label for="file-upload"
+             ion-button
+             full>
+            Paste Keychain
+         </label>
+      <ion-textarea [(ngModel)]="keychainString"></ion-textarea>
+
+    </ion-item>
+    <ion-item>
+      <button (click)="setKeychainfromRawText()"
+              [disabled]="keychainString.length === 0"
+              ion-button
+              full>Load</button>
+    </ion-item>
+
+
   </ion-list>
 </ion-content>

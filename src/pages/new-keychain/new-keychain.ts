@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavParams, ViewController } from 'ionic-angular';
 import { CryptoProvider } from '../../providers/crypto/crypto';
 import { KEYCHAIN_DEFAULT } from '../../types/keychain';
-import { Storage } from '@ionic/storage';
+import { KeychainProvider } from '../../providers/keychain/keychain';
 /**
  * Generated class for the NewKeychainPage page.
  *
@@ -19,9 +19,9 @@ import { Storage } from '@ionic/storage';
 export class NewKeychainPage {
 
   private passphrase = "";
-
+  private keychainString = "";
   constructor(private viewCtrl: ViewController,
-    private crypto : CryptoProvider, private storage : Storage) {
+    private crypto : CryptoProvider, private keychainProvider : KeychainProvider) {
   }
 
 
@@ -31,15 +31,18 @@ export class NewKeychainPage {
     });       
   }
 
+  setKeychainfromRawText(){
+    this.viewCtrl.dismiss(this.keychainString);
+  }
+
   importKeychain(file : File){
     if (file['path']){
-      this.storage.set('keychainFilePath',file['path']);
+      this.keychainProvider.setKeychainPath(file['path'])
     }
     const reader = new FileReader();
     reader.readAsText(file);
-    const viewCtrl = this.viewCtrl;
     reader.onload= () => {
-      viewCtrl.dismiss(reader.result);
+      this.viewCtrl.dismiss(reader.result);
     };
 
   }

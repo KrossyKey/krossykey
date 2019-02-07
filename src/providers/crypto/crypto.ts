@@ -14,12 +14,15 @@ export class CryptoProvider {
 
   decryptStringFromPhrase(passphrase:string, encodedData : string):Promise<{}>{
       return this.importKey(passphrase).then((importedKey) => {
+        console.log(importedKey)
         return this.decryptStringFromKey(importedKey,encodedData);
       });
   }
 
   decryptStringFromKey(importedKey:CryptoKey, encodedData : string):Promise<{}>{
     //Decode string
+    try {
+
       const decoded = this.stringToArrayBuffer(window.atob(encodedData));
       const salt = decoded.slice(0,16);
       const data = decoded.slice(16);
@@ -35,12 +38,19 @@ export class CryptoProvider {
             data
           ) as Promise<ArrayBuffer>)
           .then((decrypted) => {
+            console.log(decrypted)
             return JSON.parse(this.bufferToString(new Uint8Array(decrypted))) as {};
           })
           .catch((error : Error) => {
             return null;
           });
         });
+
+
+    }catch{
+      return null
+    }
+      
   }
 
 

@@ -14,8 +14,7 @@ import { DomSanitizer } from '@angular/platform-browser';
  * Page for displaying passwords
  */
 
-@IonicPage()
-@Component({
+ @Component({
   selector: 'page-accounts',
   templateUrl: 'accounts.html',
 })
