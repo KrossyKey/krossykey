@@ -43,7 +43,7 @@
     "@types/cookie": "^0.3.1",
     "@types/object-hash": "^1.2.0",
     "@types/sprintf-js": "^1.1.0",
-    "ajv": "^6.5.1",
+    "ajv": "^6.12.3",
     "clipboard-polyfill": "^2.4.7",
     "cookie": "^0.3.1",
     "cordova-browser": "5.0.3",
